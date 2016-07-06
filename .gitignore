@@ -1,0 +1,34 @@
+# Bootstrap
+app/bootstrap*
+
+# Symfony directories
+vendor/*
+*/logs/*
+*/cache/*
+app/sessions/*
+web/bundles/*
+
+# Configuration files
+app/config/parameters.ini
+app/config/parameters.yml
+
+# Sass & Mac
+web/.sass-cache
+.sass-cache
+.DS_Store
+
+# Nodejs Grunt modules
+node_modules
+
+# phpUnit code coverage
+build/*
+
+# bck files
+*.php~
+*.yml~
+
+# Composer
+composer.phar
+
+# phpstorm
+.idea
