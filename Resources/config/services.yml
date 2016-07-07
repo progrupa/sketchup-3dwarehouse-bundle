@@ -1,0 +1,13 @@
+services:
+    sketchup_3dwarehouse.client:
+        class: Progrupa\Sketchup3DWarehouseBundle\Client
+        arguments:
+            - @sketchup_3dwarehouse.guzzle
+            - @sketchup_3dwarehouse.serializer
+
+    sketchup_3dwarehouse.guzzle:
+        class: GuzzleHttp\Client
+        arguments:
+            options:
+                base_uri: progrupa.sketchup_3dwarehouse.base_url
+                headers: {Content-Type: 'application/json'}

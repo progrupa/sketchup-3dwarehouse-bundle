@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="sketchup_3dwarehouse.serializer.metadata.file_locator.class">Metadata\Driver\FileLocator</parameter>
+        <parameter key="sketchup_3dwarehouse.serializer.metadata.annotation_driver.class">JMS\Serializer\Metadata\Driver\AnnotationDriver</parameter>
+        <parameter key="sketchup_3dwarehouse.serializer.metadata.chain_driver.class">Metadata\Driver\DriverChain</parameter>
+        <parameter key="sketchup_3dwarehouse.serializer.metadata.yaml_driver.class">JMS\Serializer\Metadata\Driver\YamlDriver</parameter>
+        <parameter key="sketchup_3dwarehouse.serializer.metadata.xml_driver.class">JMS\Serializer\Metadata\Driver\XmlDriver</parameter>
+        <parameter key="sketchup_3dwarehouse.serializer.metadata.php_driver.class">JMS\Serializer\Metadata\Driver\PhpDriver</parameter>
+        <parameter key="sketchup_3dwarehouse.serializer.metadata.doctrine_type_driver.class">JMS\Serializer\Metadata\Driver\DoctrineTypeDriver</parameter>
+        <parameter key="sketchup_3dwarehouse.serializer.metadata.doctrine_phpcr_type_driver.class">JMS\Serializer\Metadata\Driver\DoctrinePHPCRTypeDriver</parameter>
+        <parameter key="sketchup_3dwarehouse.serializer.metadata.lazy_loading_driver.class">Metadata\Driver\LazyLoadingDriver</parameter>
+
+        <parameter key="sketchup_3dwarehouse.serializer.metadata.metadata_factory.class">Metadata\MetadataFactory</parameter>
+        <parameter key="sketchup_3dwarehouse.serializer.metadata.cache.file_cache.class">Metadata\Cache\FileCache</parameter>
+        <parameter key="sketchup_3dwarehouse.serializer.metadata.cache.file_cache.dir">%kernel.cache_dir%/sketchup_3dwarehouse_serializer</parameter>
+
+        <parameter key="sketchup_3dwarehouse.serializer.event_dispatcher.class">JMS\Serializer\EventDispatcher\LazyEventDispatcher</parameter>
+
+        <parameter key="sketchup_3dwarehouse.serializer.camel_case_naming_strategy.class">JMS\Serializer\Naming\CamelCaseNamingStrategy</parameter>
+        <parameter key="sketchup_3dwarehouse.serializer.serialized_name_annotation_strategy.class">JMS\Serializer\Naming\SerializedNameAnnotationStrategy</parameter>
+        <parameter key="sketchup_3dwarehouse.serializer.cache_naming_strategy.class">JMS\Serializer\Naming\CacheNamingStrategy</parameter>
+
+        <parameter key="sketchup_3dwarehouse.serializer.doctrine_object_constructor.class">JMS\Serializer\Construction\DoctrineObjectConstructor</parameter>
+        <parameter key="sketchup_3dwarehouse.serializer.unserialize_object_constructor.class">JMS\Serializer\Construction\UnserializeObjectConstructor</parameter>
+
+        <parameter key="sketchup_3dwarehouse.serializer.version_exclusion_strategy.class">JMS\Serializer\Exclusion\VersionExclusionStrategy</parameter>
+
+        <parameter key="sketchup_3dwarehouse.serializer.serializer.class">JMS\Serializer\Serializer</parameter>
+
+        <parameter key="sketchup_3dwarehouse.serializer.json_serialization_visitor.class">JMS\Serializer\JsonSerializationVisitor</parameter>
+        <parameter key="sketchup_3dwarehouse.serializer.json_serialization_visitor.options" type="collection"></parameter>
+        <parameter key="sketchup_3dwarehouse.serializer.json_deserialization_visitor.class">JMS\Serializer\JsonDeserializationVisitor</parameter>
+        <parameter key="sketchup_3dwarehouse.serializer.xml_serialization_visitor.class">JMS\Serializer\XmlSerializationVisitor</parameter>
+        <parameter key="sketchup_3dwarehouse.serializer.xml_deserialization_visitor.class">JMS\Serializer\XmlDeserializationVisitor</parameter>
+        <parameter key="sketchup_3dwarehouse.serializer.xml_deserialization_visitor.doctype_whitelist" type="collection"></parameter>
+        <parameter key="sketchup_3dwarehouse.serializer.yaml_serialization_visitor.class">JMS\Serializer\YamlSerializationVisitor</parameter>
+        
+        <parameter key="sketchup_3dwarehouse.serializer.handler_registry.class">JMS\Serializer\Handler\LazyHandlerRegistry</parameter>
+
+        <parameter key="sketchup_3dwarehouse.serializer.datetime_handler.class">JMS\Serializer\Handler\DateHandler</parameter>
+        <parameter key="sketchup_3dwarehouse.serializer.array_collection_handler.class">JMS\Serializer\Handler\ArrayCollectionHandler</parameter>
+        <parameter key="sketchup_3dwarehouse.serializer.php_collection_handler.class">JMS\Serializer\Handler\PhpCollectionHandler</parameter>
+        <parameter key="sketchup_3dwarehouse.serializer.form_error_handler.class">JMS\Serializer\Handler\FormErrorHandler</parameter>
+        <parameter key="sketchup_3dwarehouse.serializer.constraint_violation_handler.class">JMS\Serializer\Handler\ConstraintViolationHandler</parameter>
+    </parameters>
+
+    <services>
+        <!-- Event Dispatcher -->
+        <service id="sketchup_3dwarehouse.serializer.event_dispatcher" class="%sketchup_3dwarehouse.serializer.event_dispatcher.class%" public="false">
+            <argument type="service" id="service_container" />
+        </service>
+
+        <!-- Handlers -->
+        <service id="sketchup_3dwarehouse.serializer.handler_registry" class="%sketchup_3dwarehouse.serializer.handler_registry.class%">
+            <argument type="service" id="service_container" />
+        </service>
+        <service id="sketchup_3dwarehouse.serializer.datetime_handler" class="%sketchup_3dwarehouse.serializer.datetime_handler.class%">
+            <tag name="sketchup_3dwarehouse.serializer.subscribing_handler" />
+        </service>
+        <service id="sketchup_3dwarehouse.serializer.array_collection_handler" class="%sketchup_3dwarehouse.serializer.array_collection_handler.class%">
+            <tag name="sketchup_3dwarehouse.serializer.subscribing_handler" />
+        </service>
+        <service id="sketchup_3dwarehouse.serializer.php_collection_handler" class="%sketchup_3dwarehouse.serializer.php_collection_handler.class%">
+            <tag name="sketchup_3dwarehouse.serializer.subscribing_handler" />
+        </service>
+        <service id="sketchup_3dwarehouse.serializer.form_error_handler" class="%sketchup_3dwarehouse.serializer.form_error_handler.class%">
+            <argument type="service" id="translator" />
+            <tag name="sketchup_3dwarehouse.serializer.subscribing_handler" />
+        </service>
+        <service id="sketchup_3dwarehouse.serializer.constraint_violation_handler" class="%sketchup_3dwarehouse.serializer.constraint_violation_handler.class%">
+            <tag name="sketchup_3dwarehouse.serializer.subscribing_handler" />
+        </service>
+            
+        <!-- Metadata Drivers -->
+        <service id="sketchup_3dwarehouse.serializer.metadata.file_locator" class="%sketchup_3dwarehouse.serializer.metadata.file_locator.class%" public="false">
+            <argument type="collection" /><!-- Namespace Prefixes mapping to Directories -->
+        </service>
+        <service id="sketchup_3dwarehouse.serializer.metadata.yaml_driver" class="%sketchup_3dwarehouse.serializer.metadata.yaml_driver.class%" public="false">
+            <argument type="service" id="sketchup_3dwarehouse.serializer.metadata.file_locator" />
+        </service>
+        <service id="sketchup_3dwarehouse.serializer.metadata.xml_driver" class="%sketchup_3dwarehouse.serializer.metadata.xml_driver.class%" public="false">
+            <argument type="service" id="sketchup_3dwarehouse.serializer.metadata.file_locator" />
+        </service>
+        <service id="sketchup_3dwarehouse.serializer.metadata.php_driver" class="%sketchup_3dwarehouse.serializer.metadata.php_driver.class%" public="false">
+            <argument type="service" id="sketchup_3dwarehouse.serializer.metadata.file_locator" />
+        </service>
+        <service id="sketchup_3dwarehouse.serializer.metadata.annotation_driver" class="%sketchup_3dwarehouse.serializer.metadata.annotation_driver.class%" public="false">
+            <argument type="service" id="annotation_reader" />
+        </service>
+        <service id="sketchup_3dwarehouse.serializer.metadata.chain_driver" class="%sketchup_3dwarehouse.serializer.metadata.chain_driver.class%" public="false">
+            <argument type="collection">
+                <argument type="service" id="sketchup_3dwarehouse.serializer.metadata.yaml_driver" />
+                <argument type="service" id="sketchup_3dwarehouse.serializer.metadata.xml_driver" />
+                <argument type="service" id="sketchup_3dwarehouse.serializer.metadata.php_driver" />
+                <argument type="service" id="sketchup_3dwarehouse.serializer.metadata.annotation_driver" />
+            </argument>
+        </service>
+        <service id="sketchup_3dwarehouse.serializer.metadata.lazy_loading_driver" class="%sketchup_3dwarehouse.serializer.metadata.lazy_loading_driver.class%" public="false">
+            <argument type="service" id="service_container" />
+            <argument>sketchup_3dwarehouse.serializer.metadata_driver</argument>
+        </service>
+        <service id="sketchup_3dwarehouse.serializer.metadata_driver" alias="sketchup_3dwarehouse.serializer.metadata.chain_driver" />
+
+        <!-- Metadata Factory -->
+        <service id="sketchup_3dwarehouse.serializer.metadata.cache.file_cache" class="%sketchup_3dwarehouse.serializer.metadata.cache.file_cache.class%" public="false">
+            <argument type="string">%sketchup_3dwarehouse.serializer.metadata.cache.file_cache.dir%</argument>
+        </service>
+        <service id="sketchup_3dwarehouse.serializer.metadata.cache" alias="sketchup_3dwarehouse.serializer.metadata.cache.file_cache" public="false" />
+        <service id="sketchup_3dwarehouse.serializer.metadata_factory" class="%sketchup_3dwarehouse.serializer.metadata.metadata_factory.class%" public="false">
+            <argument type="service" id="sketchup_3dwarehouse.serializer.metadata.lazy_loading_driver" />
+            <argument>Metadata\ClassHierarchyMetadata</argument>
+            <call method="setCache">
+                <argument type="service" id="sketchup_3dwarehouse.serializer.metadata.cache" on-invalid="ignore" />
+            </call>
+        </service>
+
+        <!-- Exclusion Strategies -->
+        <service id="sketchup_3dwarehouse.serializer.version_exclusion_strategy"
+                 class="%sketchup_3dwarehouse.serializer.version_exclusion_strategy.class%"
+                 public="false"
+                 abstract="true" />
+
+        <!-- Naming Strategies -->
+        <service id="sketchup_3dwarehouse.serializer.camel_case_naming_strategy" class="%sketchup_3dwarehouse.serializer.camel_case_naming_strategy.class%" public="false" />
+        <service id="sketchup_3dwarehouse.serializer.serialized_name_annotation_strategy" class="%sketchup_3dwarehouse.serializer.serialized_name_annotation_strategy.class%" public="false">
+            <argument type="service" id="sketchup_3dwarehouse.serializer.camel_case_naming_strategy" />
+        </service>
+        <service id="sketchup_3dwarehouse.serializer.cache_naming_strategy" class="%sketchup_3dwarehouse.serializer.cache_naming_strategy.class%" public="false" />
+        <service id="sketchup_3dwarehouse.serializer.naming_strategy" alias="sketchup_3dwarehouse.serializer.serialized_name_annotation_strategy" public="false" />
+
+        <!-- Object Constructors -->
+        <service id="sketchup_3dwarehouse.serializer.unserialize_object_constructor" class="%sketchup_3dwarehouse.serializer.unserialize_object_constructor.class%" public="false" />
+        <service id="sketchup_3dwarehouse.serializer.object_constructor" alias="sketchup_3dwarehouse.serializer.unserialize_object_constructor" public="false" />
+
+        <!-- Serializer -->
+        <service id="sketchup_3dwarehouse.serializer.serializer" class="%sketchup_3dwarehouse.serializer.serializer.class%" public="false">
+            <argument type="service" id="sketchup_3dwarehouse.serializer.metadata_factory" />
+            <argument type="service" id="sketchup_3dwarehouse.serializer.handler_registry" />
+            <argument type="service" id="sketchup_3dwarehouse.serializer.object_constructor" />
+            <argument type="collection" /><!-- Serialization Visitors -->
+            <argument type="collection" /><!-- Deserialization Visitors -->
+            <argument type="service" id="sketchup_3dwarehouse.serializer.event_dispatcher" />
+        </service>
+        <service id="sketchup_3dwarehouse.serializer" alias="sketchup_3dwarehouse.serializer.serializer" /><!-- Preferred Alias -->
+
+        <!-- Visitors -->
+        <service id="sketchup_3dwarehouse.serializer.json_serialization_visitor" class="%sketchup_3dwarehouse.serializer.json_serialization_visitor.class%">
+            <argument type="service" id="sketchup_3dwarehouse.serializer.naming_strategy" />
+            <call method="setOptions">
+                <argument>%sketchup_3dwarehouse.serializer.json_serialization_visitor.options%</argument>
+            </call>
+            <tag name="sketchup_3dwarehouse.serializer.serialization_visitor" format="json" />
+        </service>
+        <service id="sketchup_3dwarehouse.serializer.json_deserialization_visitor" class="%sketchup_3dwarehouse.serializer.json_deserialization_visitor.class%">
+            <argument type="service" id="sketchup_3dwarehouse.serializer.naming_strategy" />
+            <argument type="service" id="sketchup_3dwarehouse.serializer.object_constructor" />
+            <tag name="sketchup_3dwarehouse.serializer.deserialization_visitor" format="json" />
+        </service>
+        <service id="sketchup_3dwarehouse.serializer.array_serialization_visitor" class="Progrupa\Sketchup3DWarehouseBundle\Serializer\ArraySerializerVisitor">
+            <argument type="service" id="sketchup_3dwarehouse.serializer.naming_strategy" />
+            <tag name="sketchup_3dwarehouse.serializer.serialization_visitor" format="array" />
+        </service>
+        <service id="sketchup_3dwarehouse.serializer.array_deserialization_visitor" class="Progrupa\Sketchup3DWarehouseBundle\Serializer\ArrayDeserializerVisitor">
+            <argument type="service" id="sketchup_3dwarehouse.serializer.naming_strategy" />
+            <argument type="service" id="sketchup_3dwarehouse.serializer.object_constructor" />
+            <tag name="sketchup_3dwarehouse.serializer.deserialization_visitor" format="array" />
+        </service>
+    </services>
+</container>
