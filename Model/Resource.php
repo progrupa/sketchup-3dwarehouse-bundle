@@ -4,12 +4,12 @@ namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
 interface Resource
 {
-    /** @returns string */
+    /** @return string */
     public static function getResource();
-    /** @returns string */
+    /** @return string */
     public static function updateResource();
-    /** @returns string */
+    /** @return string */
     public static function deleteResource();
-    /** @returns array */
+    /** @return array */
     public function attributes();
 }

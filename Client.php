@@ -18,12 +18,15 @@ class Client
         $this->serializer = $serializer;
     }
 
-    public function getResource($resourceClass)
+    public function getResource($resourceClass, $id)
     {
         $endpoint = $resourceClass::getResource();
 
-        $response = $this->guzzle->get($endpoint);
-        $entity = $this->serializer->deserialize($response->getBody(), $resourceClass, 'json');
+        $entity = new $resourceClass;
+        $entity->setId($id);
+
+        $response = $this->guzzle->get($endpoint .'?'. http_build_query($entity->attributes()));
+        $entity = $this->serializer->deserialize((string) $response->getBody(), $resourceClass, 'json');
 
         return $entity;
     }

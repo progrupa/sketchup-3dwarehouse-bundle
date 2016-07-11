@@ -18,7 +18,7 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-        $treeBuilder->root('progrupa_sketchup_3dwarehouse')
+        $treeBuilder->root('progrupa_sketchup3_d_warehouse')
             ->children()
                 ->scalarNode('base_url')->defaultValue('https://3dwarehouse.sketchup.com:443')->end()
             ->end();
