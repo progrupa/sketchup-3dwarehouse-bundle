@@ -20,12 +20,10 @@ class Client
 
     public function getResource($resourceClass, $id)
     {
-        $endpoint = $resourceClass::getResource();
-
         $entity = new $resourceClass;
         $entity->setId($id);
 
-        $response = $this->guzzle->get($endpoint .'?'. http_build_query($entity->attributes()));
+        $response = $this->guzzle->get($entity->getResource());
         $entity = $this->serializer->deserialize((string) $response->getBody(), $resourceClass, 'json');
 
         return $entity;

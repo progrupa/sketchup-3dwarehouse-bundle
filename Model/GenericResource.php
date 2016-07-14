@@ -3,24 +3,47 @@
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
 
+use JMS\Serializer\Annotation\Type;
+
 abstract class GenericResource implements Resource
 {
-    /** @return string */
-    public static function getResource()
+    /**
+     * @var string
+     * @Type("string")
+     */
+    protected $id;
+
+    /**
+     * @return string
+     */
+    public function getId()
     {
-        return static::GET;
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 
     /** @return string */
-    public static function updateResource()
+    public function getResource()
     {
-        return static::UPDATE;
+        return static::GET .'?id='. $this->getId();
     }
 
     /** @return string */
-    public static function deleteResource()
+    public function updateResource()
     {
-        return static::DELETE;
+        return static::UPDATE .'?id='. $this->getId();
     }
 
+    /** @return string */
+    public function deleteResource()
+    {
+        return static::DELETE .'?id='. $this->getId();
+    }
 }
