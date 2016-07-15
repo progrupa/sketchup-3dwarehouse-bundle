@@ -25,19 +25,23 @@ abstract class SubjectResource implements Resource
         $this->subjectClass = $subjectClass;
     }
 
-    public static function fromObject($obj)
+    public static function fromObject(Resource $obj)
     {
         $class = get_called_class();
 
-        if ($obj instanceof Collection) {
-            return new $class($obj->getId(), SubjectClass::COLLECTION);
-        } elseif ($obj instanceof Entity) {
-            return new $class($obj->getId(), SubjectClass::ENTITY);
-        } elseif ($obj instanceof User) {
-            return new $class($obj->getId(), SubjectClass::USER);
-        } else {
-            throw new InvalidArgumentException(sprintf('Cannot create SubjectResource from %s', get_class($obj)));
-        }
+        return new $class($obj->getId(), SubjectClass::fromResource($obj));
+    }
+
+    /** @return array */
+    public function attributes()
+    {
+        return [];
+    }
+
+    /** @return string */
+    public function getId()
+    {
+        return null;
     }
 
     /**

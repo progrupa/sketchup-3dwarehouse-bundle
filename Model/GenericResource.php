@@ -13,6 +13,11 @@ abstract class GenericResource implements Resource
      */
     protected $id;
 
+    public function __construct($id)
+    {
+        $this->id = $id;
+    }
+
     /**
      * @return string
      */
@@ -45,5 +50,11 @@ abstract class GenericResource implements Resource
     public function deleteResource()
     {
         return static::DELETE .'?id='. $this->getId();
+    }
+
+    /** @return array */
+    public function attributes()
+    {
+        return [];
     }
 }

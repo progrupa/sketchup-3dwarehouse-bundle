@@ -14,7 +14,6 @@ class Entity extends GenericResource
     /**
      * @var string
      * @Type("string")
-     * @TODO Needs own type?
      */
     private $premiumCollectionId;
     /**

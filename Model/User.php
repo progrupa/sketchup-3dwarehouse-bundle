@@ -27,7 +27,7 @@ class User extends GenericResource
      */
     private $displayName;
     /**
-     * @var User
+     * @var SimpleUserProjection
      * @Type("Progrupa\Sketchup3DWarehouseBundle\Model\SimpleUserProjection")
      */
     private $modifier;
@@ -67,7 +67,7 @@ class User extends GenericResource
      */
     private $customWarehouseUrl;
     /**
-     * @var User
+     * @var SimpleUserProjection
      * @Type("Progrupa\Sketchup3DWarehouseBundle\Model\SimpleUserProjection")
      */
     private $creator;
@@ -183,7 +183,7 @@ class User extends GenericResource
     }
 
     /**
-     * @return User
+     * @return SimpleUserProjection
      */
     public function getModifier()
     {
@@ -191,7 +191,7 @@ class User extends GenericResource
     }
 
     /**
-     * @param User $modifier
+     * @param SimpleUserProjection $modifier
      */
     public function setModifier($modifier)
     {
@@ -311,7 +311,7 @@ class User extends GenericResource
     }
 
     /**
-     * @return User
+     * @return SimpleUserProjection
      */
     public function getCreator()
     {
@@ -319,7 +319,7 @@ class User extends GenericResource
     }
 
     /**
-     * @param User $creator
+     * @param SimpleUserProjection $creator
      */
     public function setCreator($creator)
     {
