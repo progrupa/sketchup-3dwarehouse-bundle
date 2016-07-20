@@ -13,7 +13,7 @@ abstract class GenericResource implements Resource
      */
     protected $id;
 
-    public function __construct($id)
+    public function __construct($id = null)
     {
         $this->id = $id;
     }
@@ -53,7 +53,7 @@ abstract class GenericResource implements Resource
     }
 
     /** @return array */
-    public function attributes()
+    public function extraAttributes($groups = [])
     {
         return [];
     }

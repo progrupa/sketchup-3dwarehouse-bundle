@@ -3,6 +3,7 @@
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
 
+use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 use Progrupa\Sketchup3DWarehouseBundle\Exception\InvalidArgumentException;
 
@@ -11,11 +12,13 @@ abstract class SubjectResource implements Resource
     /**
      * @var string
      * @Type("string")
+     * @SerializedName("subjectId")
      */
     protected $subjectId;
     /**
      * @var string
      * @Type("string")
+     * @SerializedName("subjectClass")
      */
     protected $subjectClass;
 
@@ -25,6 +28,10 @@ abstract class SubjectResource implements Resource
         $this->subjectClass = $subjectClass;
     }
 
+    /**
+     * @param Resource $obj
+     * @return $this
+     */
     public static function fromObject(Resource $obj)
     {
         $class = get_called_class();
@@ -33,7 +40,7 @@ abstract class SubjectResource implements Resource
     }
 
     /** @return array */
-    public function attributes()
+    public function extraAttributes($groups = [])
     {
         return [];
     }

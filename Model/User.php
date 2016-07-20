@@ -127,13 +127,6 @@ class User extends GenericResource
      */
     private $notifications;
 
-
-    /** @return array */
-    public function attributes()
-    {
-        return [];
-    }
-
     /**
      * @return boolean
      */

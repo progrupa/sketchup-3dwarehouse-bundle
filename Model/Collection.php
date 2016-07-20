@@ -184,12 +184,6 @@ class Collection extends GenericResource implements HierarchicalResource
      */
     private $binaries;
 
-    /** @return array */
-    public function attributes()
-    {
-        return [];
-    }
-
     /**
      * @return int
      */

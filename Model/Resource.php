@@ -13,5 +13,5 @@ interface Resource
     /** @return string */
     public function getId();
     /** @return array */
-    public function attributes();
+    public function extraAttributes($groups = []);
 }

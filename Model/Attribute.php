@@ -42,12 +42,6 @@ class Attribute extends SubjectResource
      */
     private $doNotNotify;
 
-    /** @return array */
-    public function attributes()
-    {
-        return [];
-    }
-
     /**
      * @return string
      */

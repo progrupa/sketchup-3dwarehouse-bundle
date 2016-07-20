@@ -2,7 +2,11 @@
 
 namespace Progrupa\Sketchup3DWarehouseBundle;
 
+use GuzzleHttp\Cookie\CookieJar;
+use GuzzleHttp\Cookie\SetCookie;
 use GuzzleHttp\Exception\RequestException;
+use JMS\Serializer\DeserializationContext;
+use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use Progrupa\Sketchup3DWarehouseBundle\Model\HierarchicalResource;
 use Progrupa\Sketchup3DWarehouseBundle\Model\Resource;
@@ -16,9 +20,11 @@ class Client
     /** @var  SerializerInterface */
     private $serializer;
 
-    public function __construct(\GuzzleHttp\Client $guzzle, SerializerInterface $serializer)
+    public function __construct(\GuzzleHttp\Client $guzzle, SerializerInterface $serializer, CookieJar $cookieJar)
     {
         $this->guzzle = $guzzle;
+        // @TODO temporary solution, as authentication does not work ATM.
+        $cookieJar->setCookie(SetCookie::fromString('SID="AuthKey 9d55f007-4615-4750-a441-f65d3c423246"; expires=Thu, 04 Aug 2016 08:20:54 GMT; path=/; domain=.sketchup.com'));
         $this->serializer = $serializer;
     }
 
@@ -28,7 +34,14 @@ class Client
             $guzzleResponse = $this->guzzle->get($entity->getResource());
             $response = $this->convertResponse($guzzleResponse);
 
-            $response->setEntity($this->serializer->deserialize((string)$guzzleResponse->getBody(), get_class($entity), 'json'));
+            $response->setEntity(
+                $this->serializer->deserialize(
+                    (string)$guzzleResponse->getBody(),
+                    get_class($entity),
+                    'json',
+                    DeserializationContext::create()->setGroups(['Default', 'get'])
+                )
+            );
 
             return $response;
         } catch (RequestException $e) {
@@ -78,14 +91,25 @@ class Client
     public function updateResource(Resource $resource)
     {
         try {
-            return $this->convertResponse(
+            $groups = ['Default', 'update'];
+            $updateParameters = array_merge(
+                $this->serializer->serialize($resource, 'array', SerializationContext::create()->setGroups($groups)),
+                $resource->extraAttributes($groups)
+            );
+            $response = $this->convertResponse(
                 $this->guzzle->post(
                     $resource->updateResource(),
                     [
-                        'form_params' => $resource->attributes()
+                        'multipart' => $this->convertToMultipart($updateParameters),
                     ]
                 )
             );
+            if ($response->getId()) {
+                $resource->setId($response->getId());
+            }
+            $response->setEntity($resource);
+
+            return $response;
         } catch (RequestException $e) {
             return $this->convertResponse($e->getResponse());
         }
@@ -116,9 +140,22 @@ class Client
     protected function convertResponse($guzzleResponse)
     {
         /** @var ApiResponse $response */
-        $response = $this->serializer->deserialize((string)$guzzleResponse->getBody(), ApiResponse::class, 'json');
+        $body = (string)$guzzleResponse->getBody();
+        $response = $this->serializer->deserialize($body, ApiResponse::class, 'json');
         $response->setCode($guzzleResponse->getStatusCode());
 
         return $response;
+    }
+
+    private function convertToMultipart($data)
+    {
+        $out = [];
+        foreach ($data as $k => $v) {
+            $out[] = [
+                'name'     => $k,
+                'contents' => $v
+            ];
+        }
+        return $out;
     }
 }

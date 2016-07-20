@@ -11,6 +11,8 @@ class Entity extends GenericResource
     const UPDATE = 'setentity';
     const DELETE = 'deleteentity';
 
+    const TYPE_SKETCHUP = 'SKETCHUP';
+    const TYPE_TEKLA = 'TEKLA MODEL';
     /**
      * @var string
      * @Type("string")
@@ -152,15 +154,6 @@ class Entity extends GenericResource
      * @Type("array")
      */
     private $binaries;
-
-
-    /** @return array */
-    public function attributes()
-    {
-        return [
-            'id' => $this->id,
-        ];
-    }
 
     /**
      * @return string

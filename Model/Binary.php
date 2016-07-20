@@ -3,6 +3,8 @@
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
 
+use JMS\Serializer\Annotation\Groups;
+use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 
 class Binary extends SubjectResource
@@ -19,8 +21,10 @@ class Binary extends SubjectResource
     /**
      * @var string
      * @Type("string")
+     * @SerializedName("fn")
+     * @Groups({"get"})
      */
-    private $fn;
+    private $downloadFilename;
     /**
      * @var string
      * @Type("string")
@@ -47,9 +51,24 @@ class Binary extends SubjectResource
      */
     private $authorId;
 
+    /**
+     * @var resource
+     */
+    private $file;
+
     public function getResource()
     {
         return parent::getResource() . '&name='.$this->name;
+    }
+
+    public function extraAttributes($groups = [])
+    {
+        return [
+            'binary' => fopen($this->file, 'r'),
+            'md5hash' => md5(file_get_contents($this->file)),
+            'task' => 'NEWMODEL',
+            'priority' => 50,
+        ];
     }
 
     /**
@@ -71,17 +90,17 @@ class Binary extends SubjectResource
     /**
      * @return string
      */
-    public function getFn()
+    public function getDownloadFilename()
     {
-        return $this->fn;
+        return $this->downloadFilename;
     }
 
     /**
-     * @param string $fn
+     * @param string $downloadFilename
      */
-    public function setFn($fn)
+    public function setDownloadFilename($downloadFilename)
     {
-        $this->fn = $fn;
+        $this->downloadFilename = $downloadFilename;
     }
 
     /**
@@ -162,5 +181,21 @@ class Binary extends SubjectResource
     public function setAuthorId($authorId)
     {
         $this->authorId = $authorId;
+    }
+
+    /**
+     * @return resource
+     */
+    public function getFile()
+    {
+        return $this->file;
+    }
+
+    /**
+     * @param resource $file
+     */
+    public function setFile($file)
+    {
+        $this->file = $file;
     }
 }
