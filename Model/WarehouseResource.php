@@ -2,7 +2,7 @@
 
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
-interface Resource
+interface WarehouseResource
 {
     /** @return string */
     public function getResource();

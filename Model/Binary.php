@@ -3,6 +3,7 @@
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
 
+use JMS\Serializer\Annotation as Serializer;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
@@ -50,6 +51,12 @@ class Binary extends SubjectResource
      * @Type("string")
      */
     private $authorId;
+    /**
+     * @var string
+     * @Type("string")
+     * @Groups("update")
+     */
+    private $types;
 
     /**
      * @var resource
@@ -197,5 +204,21 @@ class Binary extends SubjectResource
     public function setFile($file)
     {
         $this->file = $file;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTypes()
+    {
+        return $this->types;
+    }
+
+    /**
+     * @param string $types
+     */
+    public function setTypes($types)
+    {
+        $this->types = $types;
     }
 }

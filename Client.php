@@ -9,7 +9,9 @@ use JMS\Serializer\DeserializationContext;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
 use Progrupa\Sketchup3DWarehouseBundle\Model\HierarchicalResource;
+use Progrupa\Sketchup3DWarehouseBundle\Model\WarehouseRelation;
 use Progrupa\Sketchup3DWarehouseBundle\Model\Resource;
+use Progrupa\Sketchup3DWarehouseBundle\Model\WarehouseResource;
 
 class Client
 {
@@ -24,11 +26,11 @@ class Client
     {
         $this->guzzle = $guzzle;
         // @TODO temporary solution, as authentication does not work ATM.
-        $cookieJar->setCookie(SetCookie::fromString('SID="AuthKey 9d55f007-4615-4750-a441-f65d3c423246"; expires=Thu, 04 Aug 2016 08:20:54 GMT; path=/; domain=.sketchup.com'));
+        $cookieJar->setCookie(SetCookie::fromString('SID="AuthKey 23ec5d03-86db-4d80-a378-6059139a7ead"; expires=Thu, 24 Nov 2016 13:52:20 GMT; path=/; domain=.sketchup.com'));
         $this->serializer = $serializer;
     }
 
-    public function getResource(Resource $entity)
+    public function getResource(WarehouseResource $entity)
     {
         try {
             $guzzleResponse = $this->guzzle->get($entity->getResource());
@@ -72,7 +74,7 @@ class Client
      * @param Resource $child
      * @return ApiResponse
      */
-    public function assignChild(HierarchicalResource $parent, Resource $child)
+    public function assignChild(HierarchicalResource $parent, WarehouseResource $child)
     {
         try {
             return $this->convertResponse(
@@ -88,7 +90,7 @@ class Client
         }
     }
 
-    public function updateResource(Resource $resource)
+    public function updateResource(WarehouseResource $resource)
     {
         try {
             $groups = ['Default', 'update'];
@@ -115,7 +117,7 @@ class Client
         }
     }
 
-    public function deleteResource(Resource $resource)
+    public function deleteResource(WarehouseResource $resource)
     {
         try {
             return $this->convertResponse(
@@ -125,6 +127,44 @@ class Client
                         'form_params' => [
                             'id' => $resource->getId(),
                         ]
+                    ]
+                )
+            );
+        } catch (RequestException $e) {
+            return $this->convertResponse($e->getResponse());
+        }
+    }
+
+    public function updateRelation(WarehouseRelation $relation)
+    {
+        try {
+            $groups = ['Default', 'update'];
+            $updateParameters = $this->serializer->serialize($relation, 'array', SerializationContext::create()->setGroups($groups));
+            $response = $this->convertResponse(
+                $this->guzzle->post(
+                    $relation->updateResource(),
+                    [
+                        'multipart' => $this->convertToMultipart($updateParameters),
+                    ]
+                )
+            );
+
+            return $response;
+        } catch (RequestException $e) {
+            return $this->convertResponse($e->getResponse());
+        }
+    }
+
+    public function deleteRelation(WarehouseRelation $relation)
+    {
+        try {
+            $groups = ['Default', 'delete'];
+            $deleteParameters = $this->serializer->serialize($relation, 'array', SerializationContext::create()->setGroups($groups));
+            return $this->convertResponse(
+                $this->guzzle->post(
+                    $relation->deleteResource(),
+                    [
+                        'multipart' => $this->convertToMultipart($deleteParameters),
                     ]
                 )
             );

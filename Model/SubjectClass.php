@@ -12,7 +12,7 @@ class SubjectClass
     const ENTITY = 'entity';
     const USER = 'user';
 
-    public static function fromResource(Resource $resource)
+    public static function fromResource(WarehouseResource $resource)
     {
         if ($resource instanceof Binary) {
             return SubjectClass::BINARY;

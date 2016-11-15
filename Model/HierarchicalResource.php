@@ -14,5 +14,5 @@ interface HierarchicalResource
      * @param Resource $resource
      * @return array
      */
-    public function addChildParameters(Resource $resource);
+    public function addChildParameters(WarehouseResource $resource);
 }

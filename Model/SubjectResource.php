@@ -7,7 +7,7 @@ use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation\Type;
 use Progrupa\Sketchup3DWarehouseBundle\Exception\InvalidArgumentException;
 
-abstract class SubjectResource implements Resource
+abstract class SubjectResource implements WarehouseResource
 {
     /**
      * @var string
@@ -32,7 +32,7 @@ abstract class SubjectResource implements Resource
      * @param Resource $obj
      * @return $this
      */
-    public static function fromObject(Resource $obj)
+    public static function fromObject(WarehouseResource $obj)
     {
         $class = get_called_class();
 

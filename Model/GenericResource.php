@@ -5,7 +5,7 @@ namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
 use JMS\Serializer\Annotation\Type;
 
-abstract class GenericResource implements Resource
+abstract class GenericResource implements WarehouseResource
 {
     /**
      * @var string

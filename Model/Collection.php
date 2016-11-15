@@ -3,8 +3,13 @@
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
 
+use JMS\Serializer\Annotation as Serializer;
 use JMS\Serializer\Annotation\Type;
+use GuzzleHttp\Psr7;
 
+/**
+ * @Serializer\ExclusionPolicy("all")
+ */
 class Collection extends GenericResource implements HierarchicalResource
 {
     const GET = 'getcollection';
@@ -23,7 +28,7 @@ class Collection extends GenericResource implements HierarchicalResource
      * @param Resource $resource
      * @return array
      */
-    public function addChildParameters(Resource $resource, $doNotNotify = false)
+    public function addChildParameters(WarehouseResource $resource, $doNotNotify = false)
     {
         return [
             'parentCollectionId' => $this->getId(),
@@ -41,6 +46,7 @@ class Collection extends GenericResource implements HierarchicalResource
     /**
      * @var string
      * @Type("string")
+     * @Serializer\Expose
      */
     private $premiumCollectionId;
     /**
@@ -51,26 +57,31 @@ class Collection extends GenericResource implements HierarchicalResource
     /**
      * @var string
      * @Type("string")
+     * @Serializer\Expose
      */
     private $description;
     /**
      * @var string
      * @Type("string")
+     * @Serializer\Expose
      */
     private $source;
     /**
      * @var boolean
      * @Type("boolean")
+     * @Serializer\Expose
      */
     private $isPrivate;
     /**
      * @var string
      * @Type("string")
+     * @Serializer\Expose
      */
     private $type;
     /**
      * @var string
      * @Type("string")
+     * @Serializer\Expose
      */
     private $title;
     /**
@@ -106,6 +117,7 @@ class Collection extends GenericResource implements HierarchicalResource
     /**
      * @var string
      * @Type("string")
+     * @Serializer\Expose
      */
     private $contentType;
     /**
@@ -116,6 +128,7 @@ class Collection extends GenericResource implements HierarchicalResource
     /**
      * @var boolean
      * @Type("boolean")
+     * @Serializer\Expose
      */
     private $isCatalog;
     /**
@@ -136,6 +149,7 @@ class Collection extends GenericResource implements HierarchicalResource
     /**
      * @var boolean
      * @Type("boolean")
+     * @Serializer\Expose
      */
     private $isHidden;
     /**
@@ -146,6 +160,7 @@ class Collection extends GenericResource implements HierarchicalResource
     /**
      * @var boolean
      * @Type("boolean")
+     * @Serializer\Expose
      */
     private $allowComments;
     /**
@@ -176,6 +191,7 @@ class Collection extends GenericResource implements HierarchicalResource
     /**
      * @var boolean
      * @Type("boolean")
+     * @Serializer\Expose
      */
     private $isPremium;
     /**
@@ -183,6 +199,35 @@ class Collection extends GenericResource implements HierarchicalResource
      * @Type("array")
      */
     private $binaries;
+    /**
+     * @var string
+     */
+    private $binaryName;
+    /**
+     * @var string
+     */
+    private $binaryType;
+    /**
+     * @var string
+     */
+    private $binaryInfo;
+    /**
+     * @var string
+     */
+    private $binary;
+
+    public function extraAttributes($groups = [])
+    {
+        if (in_array('update', $groups)) {
+            return [
+                'binaryName' => $this->binaryName,
+                'binaryType' => $this->binaryType,
+                'binary' => $this->binary,
+                'tags' => implode(',', $this->tags ? : []),
+            ];
+        }
+        return [];
+    }
 
     /**
      * @return int
@@ -662,5 +707,69 @@ class Collection extends GenericResource implements HierarchicalResource
     public function setBinaries($binaries)
     {
         $this->binaries = $binaries;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBinaryName()
+    {
+        return $this->binaryName;
+    }
+
+    /**
+     * @param string $binaryName
+     */
+    public function setBinaryName($binaryName)
+    {
+        $this->binaryName = $binaryName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBinaryType()
+    {
+        return $this->binaryType;
+    }
+
+    /**
+     * @param string $binaryType
+     */
+    public function setBinaryType($binaryType)
+    {
+        $this->binaryType = $binaryType;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBinaryInfo()
+    {
+        return $this->binaryInfo;
+    }
+
+    /**
+     * @param string $binaryInfo
+     */
+    public function setBinaryInfo($binaryInfo)
+    {
+        $this->binaryInfo = $binaryInfo;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBinary()
+    {
+        return $this->binary;
+    }
+
+    /**
+     * @param string $binary
+     */
+    public function setBinary($binary)
+    {
+        $this->binary = $binary;
     }
 }

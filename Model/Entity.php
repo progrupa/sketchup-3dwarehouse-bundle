@@ -3,8 +3,12 @@
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
 
+use JMS\Serializer\Annotation as Serializer;
 use JMS\Serializer\Annotation\Type;
 
+/**
+ * @Serializer\ExclusionPolicy("all")
+ */
 class Entity extends GenericResource
 {
     const GET = 'getentity';
@@ -26,26 +30,31 @@ class Entity extends GenericResource
     /**
      * @var string
      * @Type("string")
+     * @Serializer\Expose
      */
     private $description;
     /**
      * @var string
      * @Type("string")
+     * @Serializer\Expose
      */
     private $source;
     /**
      * @var boolean
      * @Type("boolean")
+     * @Serializer\Expose
      */
     private $isPrivate = false;
     /**
      * @var string
      * @Type("string")
+     * @Serializer\Expose
      */
     private $title;
     /**
      * @var string
      * @Type("string")
+     * @Serializer\Expose
      * @TODO Enum?
      */
     private $type;
@@ -92,6 +101,7 @@ class Entity extends GenericResource
     /**
      * @var string
      * @Type("string")
+     * @Serializer\Expose
      */
     private $contentType = "3dw";
     /**
@@ -112,6 +122,7 @@ class Entity extends GenericResource
     /**
      * @var boolean
      * @Type("boolean")
+     * @Serializer\Expose
      */
     private $isHidden;
     /**
@@ -122,6 +133,7 @@ class Entity extends GenericResource
     /**
      * @var boolean
      * @Type("boolean")
+     * @Serializer\Expose
      */
     private $allowComments;
     /**
@@ -154,6 +166,16 @@ class Entity extends GenericResource
      * @Type("array")
      */
     private $binaries;
+
+    public function extraAttributes($groups = [])
+    {
+        if (in_array('update', $groups)) {
+            return [
+                'tags' => implode(',', $this->tags ? : []),
+            ];
+        }
+        return [];
+    }
 
     /**
      * @return string
