@@ -15,25 +15,27 @@ use Progrupa\Sketchup3DWarehouseBundle\Model\WarehouseResource;
 
 class Client
 {
-    const AUTH_RESOURCE = 'authorizewithacs';
-
     /** @var  \GuzzleHttp\Client */
     private $guzzle;
     /** @var  SerializerInterface */
     private $serializer;
+    /** @var  array */
+    private $auth;
 
-    public function __construct(\GuzzleHttp\Client $guzzle, SerializerInterface $serializer, CookieJar $cookieJar)
+    public function __construct(\GuzzleHttp\Client $guzzle, SerializerInterface $serializer, $authId, $secret)
     {
         $this->guzzle = $guzzle;
-        // @TODO temporary solution, as authentication does not work ATM.
-        $cookieJar->setCookie(SetCookie::fromString('SID="AuthKey 23ec5d03-86db-4d80-a378-6059139a7ead"; expires=Thu, 24 Nov 2016 13:52:20 GMT; path=/; domain=.sketchup.com'));
+        $this->auth = [$authId, $secret];
         $this->serializer = $serializer;
     }
 
     public function getResource(WarehouseResource $entity)
     {
         try {
-            $guzzleResponse = $this->guzzle->get($entity->getResource());
+            $guzzleResponse = $this->guzzle->get(
+                $entity->getResource(),
+                $this->prepareOptions()
+            );
             $response = $this->convertResponse($guzzleResponse);
 
             $response->setEntity(
@@ -51,24 +53,6 @@ class Client
         }
     }
 
-    public function authenticate()
-    {
-        try {
-            $guzzleResponse = $this->guzzle->post(
-                static::AUTH_RESOURCE,
-                [
-                    'form_params' => [
-                        'successUrl' => 'https://modelsdownload.com/pl/',
-                        'failureUrl' => 'https://modelsdownload.com/pl/',
-                    ]
-                ]
-            );
-            $data = (string) $guzzleResponse->getBody();
-        } catch (RequestException $e) {
-            return $this->convertResponse($e->getResponse());
-        }
-    }
-
     /**
      * @param HierarchicalResource $parent
      * @param Resource $child
@@ -80,9 +64,9 @@ class Client
             return $this->convertResponse(
                 $this->guzzle->post(
                     $parent->addChildResource(),
-                    [
+                    $this->prepareOptions([
                         'form_params' => $parent->addChildParameters($child),
-                    ]
+                    ])
                 )
             );
         } catch (RequestException $e) {
@@ -101,9 +85,9 @@ class Client
             $response = $this->convertResponse(
                 $this->guzzle->post(
                     $resource->updateResource(),
-                    [
+                    $this->prepareOptions([
                         'multipart' => $this->convertToMultipart($updateParameters),
-                    ]
+                    ])
                 )
             );
             if ($response->getId()) {
@@ -123,11 +107,11 @@ class Client
             return $this->convertResponse(
                 $this->guzzle->post(
                     $resource->deleteResource(),
-                    [
+                    $this->prepareOptions([
                         'form_params' => [
                             'id' => $resource->getId(),
                         ]
-                    ]
+                    ])
                 )
             );
         } catch (RequestException $e) {
@@ -143,9 +127,9 @@ class Client
             $response = $this->convertResponse(
                 $this->guzzle->post(
                     $relation->updateResource(),
-                    [
+                    $this->prepareOptions([
                         'multipart' => $this->convertToMultipart($updateParameters),
-                    ]
+                    ])
                 )
             );
 
@@ -163,14 +147,27 @@ class Client
             return $this->convertResponse(
                 $this->guzzle->post(
                     $relation->deleteResource(),
-                    [
+                    $this->prepareOptions([
                         'multipart' => $this->convertToMultipart($deleteParameters),
-                    ]
+                    ])
                 )
             );
         } catch (RequestException $e) {
             return $this->convertResponse($e->getResponse());
         }
+    }
+
+    protected function prepareOptions($extraOptions = [])
+    {
+        $defaultOptions = [
+            'headers' => [
+                'Authorization' => '3DWCustomKey ' . base64_encode(implode(':', $this->auth))
+            ]
+        ];
+
+        $merge = array_merge_recursive($defaultOptions, $extraOptions);
+
+        return $merge;
     }
 
     /**

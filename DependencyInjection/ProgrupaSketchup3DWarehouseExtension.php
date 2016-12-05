@@ -23,6 +23,8 @@ class ProgrupaSketchup3DWarehouseExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $container->setParameter('progrupa.sketchup_3dwarehouse.base_url', $config['base_url']);
+        $container->setParameter('progrupa.sketchup_3dwarehouse.authentication_id', $config['authentication_id']);
+        $container->setParameter('progrupa.sketchup_3dwarehouse.secret', $config['secret']);
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');

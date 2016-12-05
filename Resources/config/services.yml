@@ -4,7 +4,8 @@ services:
         arguments:
             - @sketchup_3dwarehouse.guzzle
             - @sketchup_3dwarehouse.serializer
-            - @sketchup_3dwarehouse.guzzle.cookies
+            - %progrupa.sketchup_3dwarehouse.authentication_id%
+            - %progrupa.sketchup_3dwarehouse.secret%
 
     sketchup_3dwarehouse.guzzle.cookies:
         class: GuzzleHttp\Cookie\CookieJar
