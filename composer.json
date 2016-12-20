@@ -11,7 +11,6 @@
         "php": ">=5.3.9",
         "guzzlehttp/guzzle": "~6.0",
         "jms/serializer": "dev-master",
-        "openid/php-openid": "~2.3",
         "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
         "symfony/symfony": "~2.6"
     },
