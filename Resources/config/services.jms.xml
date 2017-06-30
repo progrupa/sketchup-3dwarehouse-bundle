@@ -158,7 +158,6 @@
         </service>
         <service id="sketchup_3dwarehouse.serializer.json_deserialization_visitor" class="%sketchup_3dwarehouse.serializer.json_deserialization_visitor.class%">
             <argument type="service" id="sketchup_3dwarehouse.serializer.naming_strategy" />
-            <argument type="service" id="sketchup_3dwarehouse.serializer.object_constructor" />
             <tag name="sketchup_3dwarehouse.serializer.deserialization_visitor" format="json" />
         </service>
         <service id="sketchup_3dwarehouse.serializer.array_serialization_visitor" class="Progrupa\Sketchup3DWarehouseBundle\Serializer\ArraySerializerVisitor">
@@ -167,7 +166,6 @@
         </service>
         <service id="sketchup_3dwarehouse.serializer.array_deserialization_visitor" class="Progrupa\Sketchup3DWarehouseBundle\Serializer\ArrayDeserializerVisitor">
             <argument type="service" id="sketchup_3dwarehouse.serializer.naming_strategy" />
-            <argument type="service" id="sketchup_3dwarehouse.serializer.object_constructor" />
             <tag name="sketchup_3dwarehouse.serializer.deserialization_visitor" format="array" />
         </service>
     </services>
