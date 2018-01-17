@@ -3,8 +3,7 @@
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
 
-use JMS\Serializer\Annotation\Type;
-
+use JMS\Serializer\Annotation as Serializer;
 class User extends GenericResource
 {
     const GET = 'getuser';
@@ -13,117 +12,117 @@ class User extends GenericResource
 
     /**
      * @var boolean
-     * @Type("boolean")
+     * @Serializer\Type("Su3DWBoolean")
      */
     private $canContactUser;
     /**
      * @var boolean
-     * @Type("boolean")
+     * @Serializer\Type("Su3DWBoolean")
      */
     private $isVerified;
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
      */
     private $displayName;
     /**
      * @var SimpleUserProjection
-     * @Type("Progrupa\Sketchup3DWarehouseBundle\Model\SimpleUserProjection")
+     * @Serializer\Type("Progrupa\Sketchup3DWarehouseBundle\Model\SimpleUserProjection")
      */
     private $modifier;
     /**
      * @var array
-     * @Type("array")
+     * @Serializer\Type("array")
      */
     private $roles;
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
      */
     private $language;
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
      */
     private $authProvider;
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
      */
     private $emailAddress;
     /**
      * @var \DateTime
-     * @Type("DateTime<'Y-m-d H:i:s+'>")
+     * @Serializer\Type("DateTime<'Y-m-d H:i:s+'>")
      */
     private $modifyTime;
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
      */
     private $externalResourceType;
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
      */
     private $customWarehouseUrl;
     /**
      * @var SimpleUserProjection
-     * @Type("Progrupa\Sketchup3DWarehouseBundle\Model\SimpleUserProjection")
+     * @Serializer\Type("Progrupa\Sketchup3DWarehouseBundle\Model\SimpleUserProjection")
      */
     private $creator;
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
      */
     private $externalId;
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
      */
     private $picture;
     /**
      * @var integer
-     * @Type("integer")
+     * @Serializer\Type("integer")
      */
     private $commentCount;
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
      */
     private $masterId;
     /**
      * @var integer
-     * @Type("integer")
+     * @Serializer\Type("integer")
      */
     private $entityCount;
     /**
      * @var \DateTime
-     * @Type("DateTime<'Y-m-d H:i:s+'>")
+     * @Serializer\Type("DateTime<'Y-m-d H:i:s+'>")
      */
     private $createTime;
     /**
      * @var integer
-     * @Type("integer")
+     * @Serializer\Type("integer")
      */
     private $collectionCount;
     /**
      * @var array
-     * @Type("array")
+     * @Serializer\Type("array")
      */
     private $attributes;
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
      */
     private $trimbleId;
     /**
      * @var array
-     * @Type("array")
+     * @Serializer\Type("array")
      */
     private $binaries;
     /**
      * @var array
-     * @Type("array")
+     * @Serializer\Type("array")
      */
     private $notifications;
 

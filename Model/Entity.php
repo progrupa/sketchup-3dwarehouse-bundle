@@ -4,7 +4,6 @@ namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
 
 use JMS\Serializer\Annotation as Serializer;
-use JMS\Serializer\Annotation\Type;
 
 /**
  * @Serializer\ExclusionPolicy("all")
@@ -19,151 +18,157 @@ class Entity extends GenericResource
     const TYPE_TEKLA = 'TEKLA MODEL';
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
      */
     private $premiumCollectionId;
     /**
      * @var User
-     * @Type("Progrupa\Sketchup3DWarehouseBundle\Model\SimpleUserProjection")
+     * @Serializer\Type("Progrupa\Sketchup3DWarehouseBundle\Model\SimpleUserProjection")
      */
     private $modifier;
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
      * @Serializer\Expose
      */
     private $description;
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
+     * @Serializer\Expose
+     */
+    private $externalUrl;
+    /**
+     * @var string
+     * @Serializer\Type("string")
      * @Serializer\Expose
      */
     private $source;
     /**
      * @var boolean
-     * @Type("boolean")
+     * @Serializer\Type("Su3DWBoolean")
      * @Serializer\Expose
      */
     private $isPrivate = false;
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
      * @Serializer\Expose
      */
     private $title;
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
      * @Serializer\Expose
      * @TODO Enum?
      */
     private $type;
     /**
      * @var \DateTime
-     * @Type("DateTime<'Y-m-d H:i:s+'>")
+     * @Serializer\Type("DateTime<'Y-m-d H:i:s+'>")
      */
     private $modifyTime;
     /**
      * @var integer
-     * @Type("integer")
+     * @Serializer\Type("integer")
      */
     private $reviewCount;
     /**
      * @var integer
-     * @Type("integer")
+     * @Serializer\Type("integer")
      */
     private $downloads;
     /**
      * @var integer
-     * @Type("integer")
+     * @Serializer\Type("integer")
      */
     private $currentUserRating;
     /**
      * @var array
-     * @Type("array")
+     * @Serializer\Type("array")
      */
     private $translations;
     /**
      * @var float
-     * @Type("float")
+     * @Serializer\Type("float")
      */
     private $averageRating;
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
      */
     private $accessRole;
     /**
      * @var array
-     * @Type("array<string>")
+     * @Serializer\Type("array<string>")
      */
     private $binaryNames;
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
      * @Serializer\Expose
      */
     private $contentType = "3dw";
     /**
      * @var integer
-     * @Type("integer")
+     * @Serializer\Type("integer")
      */
     private $views;
     /**
      * @var User
-     * @Type("Progrupa\Sketchup3DWarehouseBundle\Model\SimpleUserProjection")
+     * @Serializer\Type("Progrupa\Sketchup3DWarehouseBundle\Model\SimpleUserProjection")
      */
     private $creator;
     /**
      * @var array
-     * @Type("array")
+     * @Serializer\Type("array")
      */
     private $tags;
     /**
      * @var boolean
-     * @Type("boolean")
+     * @Serializer\Type("Su3DWBoolean")
      * @Serializer\Expose
      */
-    private $isHidden;
+    private $isHidden = false;
     /**
      * @var integer
-     * @Type("integer")
+     * @Serializer\Type("integer")
      */
     private $commentCount;
     /**
      * @var boolean
-     * @Type("boolean")
+     * @Serializer\Type("Su3DWBoolean")
      * @Serializer\Expose
      */
-    private $allowComments;
+    private $allowComments = true;
     /**
      * @var \DateTime
-     * @Type("DateTime<'Y-m-d H:i:s+'>")
+     * @Serializer\Type("DateTime<'Y-m-d H:i:s+'>")
      */
     private $createTime;
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
      */
     private $parentCatalogId;
     /**
      * @var boolean
-     * @Type("boolean")
+     * @Serializer\Type("Su3DWBoolean")
      */
     private $success;
     /**
      * @var array
-     * @Type("array")
+     * @Serializer\Type("array")
      */
     private $attributes;
     /**
      * @var array
-     * @Type("array")
+     * @Serializer\Type("array")
      */
     private $location;
     /**
      * @var array
-     * @Type("array")
+     * @Serializer\Type("array")
      */
     private $binaries;
 
@@ -223,6 +228,22 @@ class Entity extends GenericResource
     public function setDescription($description)
     {
         $this->description = $description;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExternalUrl()
+    {
+        return $this->externalUrl;
+    }
+
+    /**
+     * @param string $externalUrl
+     */
+    public function setExternalUrl($externalUrl)
+    {
+        $this->externalUrl = $externalUrl;
     }
 
     /**

@@ -21,7 +21,8 @@
 
         <parameter key="sketchup_3dwarehouse.serializer.event_dispatcher.class">JMS\Serializer\EventDispatcher\LazyEventDispatcher</parameter>
 
-        <parameter key="sketchup_3dwarehouse.serializer.camel_case_naming_strategy.class">JMS\Serializer\Naming\CamelCaseNamingStrategy</parameter>
+        <!--<parameter key="sketchup_3dwarehouse.serializer.camel_case_naming_strategy.class">JMS\Serializer\Naming\CamelCaseNamingStrategy</parameter>-->
+        <parameter key="sketchup_3dwarehouse.serializer.identical_naming_strategy.class">JMS\Serializer\Naming\IdenticalPropertyNamingStrategy</parameter>
         <parameter key="sketchup_3dwarehouse.serializer.serialized_name_annotation_strategy.class">JMS\Serializer\Naming\SerializedNameAnnotationStrategy</parameter>
         <parameter key="sketchup_3dwarehouse.serializer.cache_naming_strategy.class">JMS\Serializer\Naming\CacheNamingStrategy</parameter>
 
@@ -126,9 +127,10 @@
                  abstract="true" />
 
         <!-- Naming Strategies -->
-        <service id="sketchup_3dwarehouse.serializer.camel_case_naming_strategy" class="%sketchup_3dwarehouse.serializer.camel_case_naming_strategy.class%" public="false" />
+        <!--<service id="sketchup_3dwarehouse.serializer.camel_case_naming_strategy" class="%sketchup_3dwarehouse.serializer.camel_case_naming_strategy.class%" public="false" />-->
+        <service id="sketchup_3dwarehouse.serializer.identical_naming_strategy" class="%sketchup_3dwarehouse.serializer.identical_naming_strategy.class%" public="false" />
         <service id="sketchup_3dwarehouse.serializer.serialized_name_annotation_strategy" class="%sketchup_3dwarehouse.serializer.serialized_name_annotation_strategy.class%" public="false">
-            <argument type="service" id="sketchup_3dwarehouse.serializer.camel_case_naming_strategy" />
+            <argument type="service" id="sketchup_3dwarehouse.serializer.identical_naming_strategy" />
         </service>
         <service id="sketchup_3dwarehouse.serializer.cache_naming_strategy" class="%sketchup_3dwarehouse.serializer.cache_naming_strategy.class%" public="false" />
         <service id="sketchup_3dwarehouse.serializer.naming_strategy" alias="sketchup_3dwarehouse.serializer.serialized_name_annotation_strategy" public="false" />

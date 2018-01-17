@@ -6,7 +6,6 @@ namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 use JMS\Serializer\Annotation as Serializer;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation\Type;
 
 class Binary extends SubjectResource
 {
@@ -16,44 +15,50 @@ class Binary extends SubjectResource
 
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
      */
     private $name;
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
      * @SerializedName("fn")
      * @Groups({"get"})
      */
     private $downloadFilename;
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
      */
     private $title;
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
      */
     private $description;
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
+     * @Serializer\Expose
+     */
+    private $externalUrl;
+    /**
+     * @var string
+     * @Serializer\Type("string")
      */
     private $modelId;
     /**
      * @var boolean
-     * @Type("boolean")
+     * @Serializer\Type("Su3DWBoolean")
      */
     private $authorNickname;
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
      */
     private $authorId;
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
      * @Groups("update")
      */
     private $types;
@@ -140,6 +145,22 @@ class Binary extends SubjectResource
     public function setDescription($description)
     {
         $this->description = $description;
+    }
+
+    /**
+     * @return string
+     */
+    public function getExternalUrl()
+    {
+        return $this->externalUrl;
+    }
+
+    /**
+     * @param string $externalUrl
+     */
+    public function setExternalUrl($externalUrl)
+    {
+        $this->externalUrl = $externalUrl;
     }
 
     /**

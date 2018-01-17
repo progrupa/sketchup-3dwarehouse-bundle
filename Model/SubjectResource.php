@@ -4,20 +4,20 @@ namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
 
 use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation as Serializer;
 use Progrupa\Sketchup3DWarehouseBundle\Exception\InvalidArgumentException;
 
 abstract class SubjectResource implements WarehouseResource
 {
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
      * @SerializedName("subjectId")
      */
     protected $subjectId;
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
      * @SerializedName("subjectClass")
      */
     protected $subjectClass;

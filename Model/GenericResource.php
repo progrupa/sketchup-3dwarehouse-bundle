@@ -3,13 +3,13 @@
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
 
-use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation as Serializer;
 
 abstract class GenericResource implements WarehouseResource
 {
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
      */
     protected $id;
 

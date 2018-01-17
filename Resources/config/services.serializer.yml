@@ -1,10 +1,15 @@
 services:
     sketchup_3dwarehouse.date_time_deserialization_handler:
-        class: Progrupa\MailjetBundle\Mailjet\Serializer\DateTimeHandler
+        class: Progrupa\Sketchup3DWarehouseBundle\Serializer\DateTimeHandler
+        tags:
+            - {name: "sketchup_3dwarehouse.serializer.subscribing_handler"}
+
+    sketchup_3dwarehouse.su3dwboolean_serialization_handler:
+        class: Progrupa\Sketchup3DWarehouseBundle\Serializer\Su3DWBooleanHandler
         tags:
             - {name: "sketchup_3dwarehouse.serializer.subscribing_handler"}
 
     sketchup_3dwarehouse.date_nullifier:
-        class: Progrupa\MailjetBundle\Mailjet\Serializer\DateNullifier
+        class: Progrupa\Sketchup3DWarehouseBundle\Serializer\DateNullifier
         tags:
             - {name: "sketchup_3dwarehouse.serializer.event_subscriber"}

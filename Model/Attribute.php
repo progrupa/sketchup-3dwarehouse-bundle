@@ -3,7 +3,7 @@
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
 
-use JMS\Serializer\Annotation\Type;
+use JMS\Serializer\Annotation as Serializer;
 
 class Attribute extends SubjectResource
 {
@@ -18,27 +18,27 @@ class Attribute extends SubjectResource
 
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
      */
     private $category;
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
      */
     private $name;
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
      */
     private $value;
     /**
      * @var string
-     * @Type("string")
+     * @Serializer\Type("string")
      */
     private $dataType;
     /**
      * @var boolean
-     * @Type("boolean")
+     * @Serializer\Type("Su3DWBoolean")
      */
     private $doNotNotify;
 
