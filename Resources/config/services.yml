@@ -2,10 +2,10 @@ services:
     sketchup_3dwarehouse.client:
         class: Progrupa\Sketchup3DWarehouseBundle\Client
         arguments:
-            - @sketchup_3dwarehouse.guzzle
-            - @sketchup_3dwarehouse.serializer
-            - %progrupa.sketchup_3dwarehouse.authentication_id%
-            - %progrupa.sketchup_3dwarehouse.secret%
+            - "@sketchup_3dwarehouse.guzzle"
+            - "@sketchup_3dwarehouse.serializer"
+            - "%progrupa.sketchup_3dwarehouse.authentication_id%"
+            - "%progrupa.sketchup_3dwarehouse.secret%"
 
     sketchup_3dwarehouse.guzzle.cookies:
         class: GuzzleHttp\Cookie\CookieJar
@@ -14,6 +14,6 @@ services:
         class: GuzzleHttp\Client
         arguments:
             options:
-                base_uri: %progrupa.sketchup_3dwarehouse.base_url%
+                base_uri: "%progrupa.sketchup_3dwarehouse.base_url%"
                 headers: {Content-Type: 'application/json'}
-                cookies: @sketchup_3dwarehouse.guzzle.cookies
+                cookies: "@sketchup_3dwarehouse.guzzle.cookies"
