@@ -13,7 +13,7 @@ services:
     sketchup_3dwarehouse.guzzle:
         class: GuzzleHttp\Client
         arguments:
-            options:
+            -
                 base_uri: "%progrupa.sketchup_3dwarehouse.base_url%"
                 headers: {Content-Type: 'application/json'}
                 cookies: "@sketchup_3dwarehouse.guzzle.cookies"
