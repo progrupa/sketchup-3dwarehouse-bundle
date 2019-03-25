@@ -22,11 +22,25 @@ class Client
     /** @var  array */
     private $auth;
 
-    public function __construct(\GuzzleHttp\Client $guzzle, SerializerInterface $serializer, $authId, $secret)
+    public function __construct(\GuzzleHttp\Client $guzzle, SerializerInterface $serializer, $authId = null, $secret = null)
     {
         $this->guzzle = $guzzle;
-        $this->auth = [$authId, $secret];
         $this->serializer = $serializer;
+        if ($authId and $secret) {
+            $this->auth = [$authId, $secret];
+        }
+    }
+
+    /**
+     * @param string $authId
+     * @param string $secret
+     * @return $this
+     */
+    public function setAuth($authId, $secret)
+    {
+        $this->auth = $auth;
+
+        return $this;
     }
 
     public function getResource(WarehouseResource $entity)
@@ -159,6 +173,11 @@ class Client
 
     protected function prepareOptions($extraOptions = [])
     {
+        if (empty($this->auth))
+        {
+            throw new AuthMissingException();
+        }
+
         $defaultOptions = [
             'headers' => [
                 'Authorization' => '3DWCustomKey ' . base64_encode(implode(':', $this->auth))
