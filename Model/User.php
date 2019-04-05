@@ -92,7 +92,7 @@ class User extends GenericResource
     private $masterId;
     /**
      * @var integer
-     * @Serializer\Type("integer")
+     * @Serializer\Type("array")
      */
     private $entityCount;
     /**
@@ -102,7 +102,7 @@ class User extends GenericResource
     private $createTime;
     /**
      * @var integer
-     * @Serializer\Type("integer")
+     * @Serializer\Type("array")
      */
     private $collectionCount;
     /**

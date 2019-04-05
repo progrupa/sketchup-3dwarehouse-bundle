@@ -7,7 +7,10 @@ use JMS\Serializer\Annotation as Serializer;
 
 class ApiResponse
 {
-    /** @var integer */
+    /**
+     * @var integer
+     * @Serializer\Type("integer")
+     */
     private $code;
     /**
      * @var boolean

@@ -8,10 +8,14 @@ use GuzzleHttp\Exception\RequestException;
 use JMS\Serializer\DeserializationContext;
 use JMS\Serializer\SerializationContext;
 use JMS\Serializer\SerializerInterface;
+use Progrupa\Sketchup3DWarehouseBundle\Model\Collection;
+use Progrupa\Sketchup3DWarehouseBundle\Model\Entity;
 use Progrupa\Sketchup3DWarehouseBundle\Model\HierarchicalResource;
 use Progrupa\Sketchup3DWarehouseBundle\Model\WarehouseRelation;
 use Progrupa\Sketchup3DWarehouseBundle\Model\Resource;
 use Progrupa\Sketchup3DWarehouseBundle\Model\WarehouseResource;
+use Progrupa\Sketchup3DWarehouseBundle\Search\Query;
+use Progrupa\Sketchup3DWarehouseBundle\Search\Result;
 
 class Client
 {
@@ -38,7 +42,7 @@ class Client
      */
     public function setAuth($authId, $secret)
     {
-        $this->auth = $auth;
+        $this->auth = [$authId, $secret];
 
         return $this;
     }
@@ -64,6 +68,29 @@ class Client
             return $response;
         } catch (RequestException $e) {
             return $this->convertResponse($e->getResponse());
+        }
+    }
+
+    /**
+     * @param Query $query
+     * @return Result
+     */
+    public function search(Query $query)
+    {
+        try {
+            $extraOptions = $this->serializer->serialize($query, 'array');
+            $guzzleResponse = $this->guzzle->get(
+                'search',
+                $this->prepareOptions(
+                    ['query' => $extraOptions]
+                )
+            );
+
+            $response = $this->convertSearchResult($guzzleResponse);
+
+            return $response;
+        } catch (RequestException $e) {
+            return $this->convertSearchResult($e->getResponse());
         }
     }
 
@@ -201,6 +228,34 @@ class Client
         $response->setCode($guzzleResponse->getStatusCode());
 
         return $response;
+    }
+
+    /**
+     * @param $guzzleResponse
+     * @return Result
+     */
+    protected function convertSearchResult($guzzleResponse)
+    {
+        $body = (string)$guzzleResponse->getBody();
+        /** @var Result $result */
+        $result = $this->serializer->deserialize($body, Result::class, 'json');
+        foreach ($result->getEntries() as $item) {
+            switch ($item['class']) {
+                case Query::CLASS_COLLECTION:
+                    $class = Collection::class;
+                    break;
+                case Query::CLASS_ENTITY:
+                default:
+                    $class = Entity::class;
+                    break;
+            }
+
+            $entity = $this->serializer->deserialize($item, $class, 'array');
+            $result->addItem($entity);
+        }
+        $result->setCode($guzzleResponse->getStatusCode());
+
+        return $result;
     }
 
     private function convertToMultipart($data)

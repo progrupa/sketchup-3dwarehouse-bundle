@@ -224,12 +224,21 @@ class Collection extends GenericResource implements HierarchicalResource
     public function extraAttributes($groups = [])
     {
         if (in_array('update', $groups)) {
-            return [
-                'binaryName' => $this->binaryName,
-                'binaryType' => $this->binaryType,
-                'binary' => $this->binary,
+            $attr = [
                 'tags' => implode(',', $this->tags ? : []),
             ];
+            if ($this->binary) {
+                $attr = array_merge(
+                    $attr,
+                    [
+                        'binaryName' => $this->binaryName,
+                        'binaryType' => $this->binaryType,
+                        'binary' => $this->binary,
+                    ]
+                );
+            }
+
+            return $attr;
         }
         return [];
     }
