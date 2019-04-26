@@ -40,6 +40,7 @@ class Collection extends GenericResource implements HierarchicalResource
     /**
      * @var integer
      * @Serializer\Type("integer")
+     * @Serializer\Expose
      */
     private $deepEntityCount;
     /**
@@ -97,11 +98,13 @@ class Collection extends GenericResource implements HierarchicalResource
     /**
      * @var integer
      * @Serializer\Type("integer")
+     * @Serializer\Expose
      */
     private $reviewCount;
     /**
      * @var integer
      * @Serializer\Type("integer")
+     * @Serializer\Expose
      */
     private $currentUserRating;
     /**
@@ -112,6 +115,7 @@ class Collection extends GenericResource implements HierarchicalResource
     /**
      * @var float
      * @Serializer\Type("float")
+     * @Serializer\Expose
      */
     private $averageRating;
     /**
@@ -144,6 +148,7 @@ class Collection extends GenericResource implements HierarchicalResource
     /**
      * @var integer
      * @Serializer\Type("integer")
+     * @Serializer\Expose
      */
     private $deepCollectionCount;
     /**
@@ -160,6 +165,7 @@ class Collection extends GenericResource implements HierarchicalResource
     /**
      * @var integer
      * @Serializer\Type("integer")
+     * @Serializer\Expose
      */
     private $commentCount;
     /**
@@ -171,6 +177,7 @@ class Collection extends GenericResource implements HierarchicalResource
     /**
      * @var integer
      * @Serializer\Type("integer")
+     * @Serializer\Expose
      */
     private $entityCount;
     /**
@@ -181,11 +188,13 @@ class Collection extends GenericResource implements HierarchicalResource
     /**
      * @var string
      * @Serializer\Type("string")
+     * @Serializer\Expose
      */
     private $parentCatalogId;
     /**
      * @var integer
      * @Serializer\Type("integer")
+     * @Serializer\Expose
      */
     private $collectionCount;
     /**
