@@ -239,6 +239,7 @@ class Client
         $body = (string)$guzzleResponse->getBody();
         /** @var Result $result */
         $result = $this->serializer->deserialize($body, Result::class, 'json');
+        $result->setCode($guzzleResponse->getStatusCode());
         if ($result->isSuccess()) {
             foreach ($result->getEntries() as $item) {
                 switch ($item['class']) {
@@ -255,7 +256,6 @@ class Client
                 $result->addItem($entity);
             }
         }
-        $result->setCode($guzzleResponse->getStatusCode());
 
         return $result;
     }
