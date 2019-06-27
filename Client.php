@@ -239,19 +239,21 @@ class Client
         $body = (string)$guzzleResponse->getBody();
         /** @var Result $result */
         $result = $this->serializer->deserialize($body, Result::class, 'json');
-        foreach ($result->getEntries() as $item) {
-            switch ($item['class']) {
-                case Query::CLASS_COLLECTION:
-                    $class = Collection::class;
-                    break;
-                case Query::CLASS_ENTITY:
-                default:
-                    $class = Entity::class;
-                    break;
-            }
+        if ($result->isSuccess()) {
+            foreach ($result->getEntries() as $item) {
+                switch ($item['class']) {
+                    case Query::CLASS_COLLECTION:
+                        $class = Collection::class;
+                        break;
+                    case Query::CLASS_ENTITY:
+                    default:
+                        $class = Entity::class;
+                        break;
+                }
 
-            $entity = $this->serializer->deserialize($item, $class, 'array');
-            $result->addItem($entity);
+                $entity = $this->serializer->deserialize($item, $class, 'array');
+                $result->addItem($entity);
+            }
         }
         $result->setCode($guzzleResponse->getStatusCode());
 
