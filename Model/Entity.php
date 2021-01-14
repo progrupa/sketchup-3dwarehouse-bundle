@@ -8,14 +8,16 @@ use JMS\Serializer\Annotation as Serializer;
 /**
  * @Serializer\ExclusionPolicy("all")
  */
-class Entity extends GenericResource
+class Entity extends GenericResource implements BinaryContainingResource
 {
-    const GET = 'getentity';
-    const UPDATE = 'setentity';
-    const DELETE = 'deleteentity';
+    use WithBinaries;
 
-    const TYPE_SKETCHUP = 'SKETCHUP';
+    const RESOURCE = 'entities';
+
+    const TYPE_SKETCHUP_MODEL = 'SKETCHUP_MODEL';
     const TYPE_TEKLA = 'TEKLA MODEL';
+
+    const CONTENT_TYPE_3DW = '3dw';
     /**
      * @var string
      * @Serializer\Type("string")
@@ -108,7 +110,7 @@ class Entity extends GenericResource
      * @Serializer\Type("string")
      * @Serializer\Expose
      */
-    private $contentType = "3dw";
+    private $contentType = Entity::CONTENT_TYPE_3DW;
     /**
      * @var integer
      * @Serializer\Type("integer")
@@ -175,9 +177,7 @@ class Entity extends GenericResource
     public function extraAttributes($groups = [])
     {
         if (in_array('update', $groups)) {
-            return [
-                'tags' => implode(',', $this->tags ? : []),
-            ];
+            return [];
         }
         return [];
     }

@@ -11,11 +11,14 @@ use JMS\Serializer\SerializerInterface;
 use Progrupa\Sketchup3DWarehouseBundle\Model\Collection;
 use Progrupa\Sketchup3DWarehouseBundle\Model\Entity;
 use Progrupa\Sketchup3DWarehouseBundle\Model\HierarchicalResource;
+use Progrupa\Sketchup3DWarehouseBundle\Model\MultipartResource;
+use Progrupa\Sketchup3DWarehouseBundle\Model\SubjectClass;
 use Progrupa\Sketchup3DWarehouseBundle\Model\WarehouseRelation;
 use Progrupa\Sketchup3DWarehouseBundle\Model\Resource;
 use Progrupa\Sketchup3DWarehouseBundle\Model\WarehouseResource;
 use Progrupa\Sketchup3DWarehouseBundle\Search\Query;
 use Progrupa\Sketchup3DWarehouseBundle\Search\Result;
+use Psr\Http\Message\ResponseInterface;
 
 class Client
 {
@@ -56,14 +59,7 @@ class Client
             );
             $response = $this->convertResponse($guzzleResponse);
 
-            $response->setEntity(
-                $this->serializer->deserialize(
-                    (string)$guzzleResponse->getBody(),
-                    get_class($entity),
-                    'json',
-                    DeserializationContext::create()->setGroups(['Default', 'get'])
-                )
-            );
+            $response->setEntity($this->entityFromResponse($guzzleResponse, $entity));
 
             return $response;
         } catch (RequestException $e) {
@@ -79,10 +75,13 @@ class Client
     {
         try {
             $extraOptions = $this->serializer->serialize($query, 'array');
+            $extraOptions['fq'] = $this->convertToFiql($extraOptions['fq']);
+
             $guzzleResponse = $this->guzzle->get(
-                'search',
+                $query->getClass(),
                 $this->prepareOptions(
-                    ['query' => $extraOptions]
+                    ['query' => $extraOptions
+                    ]
                 )
             );
 
@@ -94,27 +93,6 @@ class Client
         }
     }
 
-    /**
-     * @param HierarchicalResource $parent
-     * @param Resource $child
-     * @return ApiResponse
-     */
-    public function assignChild(HierarchicalResource $parent, WarehouseResource $child)
-    {
-        try {
-            return $this->convertResponse(
-                $this->guzzle->post(
-                    $parent->addChildResource(),
-                    $this->prepareOptions([
-                        'form_params' => $parent->addChildParameters($child),
-                    ])
-                )
-            );
-        } catch (RequestException $e) {
-            return $this->convertResponse($e->getResponse());
-        }
-    }
-
     public function updateResource(WarehouseResource $resource)
     {
         try {
@@ -123,18 +101,34 @@ class Client
                 $this->serializer->serialize($resource, 'array', SerializationContext::create()->setGroups($groups)),
                 $resource->extraAttributes($groups)
             );
-            $response = $this->convertResponse(
-                $this->guzzle->post(
-                    $resource->updateResource(),
-                    $this->prepareOptions([
-                        'multipart' => $this->convertToMultipart($updateParameters),
+
+            if ($resource instanceof MultipartResource) {
+                $extraOptions = ['multipart' => $this->convertToMultipart([
+                        'dto' => $this->serializer->serialize($updateParameters, 'json'),
+                        'file' => fopen($resource->file(), 'r'),
                     ])
+                ];
+            } else {
+                $extraOptions = ['json' => $updateParameters];
+            }
+
+            $response = $this->convertResponse(
+                $this->guzzle->request(
+                    $resource->getId() ? "PATCH" : "POST",
+                    $resource->getResource(),
+                    $this->prepareOptions($extraOptions)
                 )
             );
-            if ($response->getId()) {
-                $resource->setId($response->getId());
+
+            if ($response->getCreatedLocation()) {  //  Fetch the created object
+                $createdResponse = $this->guzzle->get(
+                    $response->getCreatedLocation(),
+                    $this->prepareOptions()
+                );
+                $response->setEntity($this->entityFromResponse($createdResponse, $resource));
+            } elseif ($response->getCode() == 204) {    //  Patched OK
+                $response->setEntity($resource);
             }
-            $response->setEntity($resource);
 
             return $response;
         } catch (RequestException $e) {
@@ -146,13 +140,9 @@ class Client
     {
         try {
             return $this->convertResponse(
-                $this->guzzle->post(
-                    $resource->deleteResource(),
-                    $this->prepareOptions([
-                        'form_params' => [
-                            'id' => $resource->getId(),
-                        ]
-                    ])
+                $this->guzzle->delete(
+                    $resource->getResource(),
+                    $this->prepareOptions()
                 )
             );
         } catch (RequestException $e) {
@@ -166,10 +156,10 @@ class Client
             $groups = ['Default', 'update'];
             $updateParameters = $this->serializer->serialize($relation, 'array', SerializationContext::create()->setGroups($groups));
             $response = $this->convertResponse(
-                $this->guzzle->post(
-                    $relation->updateResource(),
+                $this->guzzle->patch(
+                    $relation->getResource(),
                     $this->prepareOptions([
-                        'multipart' => $this->convertToMultipart($updateParameters),
+                        'json' => $relation->getParameters()
                     ])
                 )
             );
@@ -186,10 +176,10 @@ class Client
             $groups = ['Default', 'delete'];
             $deleteParameters = $this->serializer->serialize($relation, 'array', SerializationContext::create()->setGroups($groups));
             return $this->convertResponse(
-                $this->guzzle->post(
-                    $relation->deleteResource(),
+                $this->guzzle->delete(
+                    $relation->getResource(),
                     $this->prepareOptions([
-                        'multipart' => $this->convertToMultipart($deleteParameters),
+                        'json' => $relation->getParameters()
                     ])
                 )
             );
@@ -220,12 +210,21 @@ class Client
      * @param $guzzleResponse
      * @return ApiResponse
      */
-    protected function convertResponse($guzzleResponse)
+    protected function convertResponse(ResponseInterface $guzzleResponse)
     {
-        /** @var ApiResponse $response */
-        $body = (string)$guzzleResponse->getBody();
-        $response = $this->serializer->deserialize($body, ApiResponse::class, 'json');
-        $response->setCode($guzzleResponse->getStatusCode());
+        $response = new ApiResponse($guzzleResponse->getStatusCode());
+        if ($guzzleResponse->getStatusCode() >= 400) {
+            /** @var ApiResponse $response */
+            $body = (string)$guzzleResponse->getBody();
+            $response = $this->serializer->deserialize($body, ApiResponse::class, 'json');
+            $response->setSuccess(false);
+        } elseif ($guzzleResponse->getStatusCode() == 201) {    // Created
+            $response->setSuccess(true);
+            $createdLocation = $guzzleResponse->getHeader("Location");
+            $response->setCreatedLocation(reset($createdLocation));
+        } else {
+            $response->setSuccess(true);
+        }
 
         return $response;
     }
@@ -243,10 +242,10 @@ class Client
         if ($result->isSuccess()) {
             foreach ($result->getEntries() as $item) {
                 switch ($item['class']) {
-                    case Query::CLASS_COLLECTION:
+                    case SubjectClass::COLLECTION:
                         $class = Collection::class;
                         break;
-                    case Query::CLASS_ENTITY:
+                    case SubjectClass::ENTITY:
                     default:
                         $class = Entity::class;
                         break;
@@ -260,6 +259,21 @@ class Client
         return $result;
     }
 
+    /**
+     * @param $guzzleResponse
+     * @param $entity
+     * @return array|\JMS\Serializer\scalar|object
+     */
+    protected function entityFromResponse($guzzleResponse, $entity)
+    {
+        return $this->serializer->deserialize(
+            (string)$guzzleResponse->getBody(),
+            get_class($entity),
+            'json',
+            DeserializationContext::create()->setGroups(['Default', 'get'])
+        );
+    }
+
     private function convertToMultipart($data)
     {
         $out = [];
@@ -270,5 +284,15 @@ class Client
             ];
         }
         return $out;
+    }
+
+    private function convertToFiql($data)
+    {
+        $phrases = [];
+        foreach ($data as $field => $value) {
+            $phrases[] = sprintf("%s==%s", $field, is_string($value) ? "\"$value\"" : $value);
+        }
+
+        return implode(";", array_filter($phrases));
     }
 }

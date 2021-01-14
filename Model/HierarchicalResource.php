@@ -8,7 +8,7 @@ interface HierarchicalResource
     /**
      * @return string
      */
-    public function addChildResource();
+    public function childResource(WarehouseResource $child);
 
     /**
      * @param Resource $resource

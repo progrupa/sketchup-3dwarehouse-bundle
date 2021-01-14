@@ -6,9 +6,7 @@ namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 use JMS\Serializer\Annotation as Serializer;
 class User extends GenericResource
 {
-    const GET = 'getuser';
-    const UPDATE = 'setuser';
-    const DELETE = 'deleteuser';
+    const RESOURCE = 'users';
 
     /**
      * @var boolean
@@ -125,6 +123,12 @@ class User extends GenericResource
      * @Serializer\Type("array")
      */
     private $notifications;
+
+    /** @return string */
+    public function getResource()
+    {
+        return static::RESOURCE . sprintf('/%s', $this->getId() ? : 'me');
+    }
 
     /**
      * @return boolean

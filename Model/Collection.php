@@ -11,16 +11,19 @@ use GuzzleHttp\Psr7;
  */
 class Collection extends GenericResource implements HierarchicalResource
 {
-    const GET = 'getcollection';
-    const UPDATE = 'setcollection';
-    const DELETE = 'deletecollection';
+    const RESOURCE = 'collections';
 
-    const ADD_CHILD = 'setcollectioncontains';
-
-    /** @return string */
-    public function addChildResource()
+    /**
+     * @param WarehouseResource $child
+     * @return string
+     */
+    public function childResource(WarehouseResource $child)
     {
-        return static::ADD_CHILD;
+        return sprintf("%s/%s/%s",
+            $this->getResource(),
+            $this->getId(),
+            SubjectClass::fromResource($child)
+        );
     }
 
     /**
@@ -59,7 +62,7 @@ class Collection extends GenericResource implements HierarchicalResource
      * @Serializer\Type("string")
      * @Serializer\Expose
      */
-    private $description;
+    private $description = "";
     /**
      * @var string
      * @Serializer\Type("string")
@@ -89,7 +92,7 @@ class Collection extends GenericResource implements HierarchicalResource
      * @Serializer\Type("string")
      * @Serializer\Expose
      */
-    private $title;
+    private $title = "";
     /**
      * @var \DateTime
      * @Serializer\Type("DateTime<'Y-m-d H:i:s+'>")
@@ -128,7 +131,7 @@ class Collection extends GenericResource implements HierarchicalResource
      * @Serializer\Type("string")
      * @Serializer\Expose
      */
-    private $contentType;
+    private $contentType = Entity::CONTENT_TYPE_3DW;
     /**
      * @var array
      * @Serializer\Type("array")
@@ -154,8 +157,9 @@ class Collection extends GenericResource implements HierarchicalResource
     /**
      * @var array
      * @Serializer\Type("array")
+     * @Serializer\Expose
      */
-    private $tags;
+    private $tags = [];
     /**
      * @var boolean
      * @Serializer\Type("Su3DWBoolean")
@@ -233,9 +237,7 @@ class Collection extends GenericResource implements HierarchicalResource
     public function extraAttributes($groups = [])
     {
         if (in_array('update', $groups)) {
-            $attr = [
-                'tags' => implode(',', $this->tags ? : []),
-            ];
+            $attr = [];
             if ($this->binary) {
                 $attr = array_merge(
                     $attr,

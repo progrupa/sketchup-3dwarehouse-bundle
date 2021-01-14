@@ -20,7 +20,7 @@ class Configuration implements ConfigurationInterface
         $treeBuilder = new TreeBuilder();
         $treeBuilder->root('progrupa_sketchup3_d_warehouse')
             ->children()
-                ->scalarNode('base_url')->defaultValue('https://3dwarehouse.sketchup.com:443/warehouse/')->end()
+                ->scalarNode('base_url')->defaultValue('https://3dwarehouse.sketchup.com:443/warehouse/v1.0/')->end()
                 ->scalarNode('authentication_id')->end()
                 ->scalarNode('secret')->end()
             ->end();

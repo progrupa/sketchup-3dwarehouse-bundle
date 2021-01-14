@@ -2,22 +2,59 @@
 namespace Progrupa\Sketchup3DWarehouseBundle\Search;
 
 use JMS\Serializer\Annotation as Serializer;
+use Progrupa\Sketchup3DWarehouseBundle\Model\Entity;
 
 class Query
 {
+    const CLASS_COLLECTION = 'collections';
+    const CLASS_ENTITY = 'entities';
+    const CLASS_ITEM = 'items';
+    const CLASS_PACKAGE = 'packages';
 
-    const CLASS_COLLECTION = 'collection';
-    const CLASS_ENTITY = 'entity';
-    const CLASS_ITEM = 'item';
-    const CLASS_PACKAGE = 'package';
-    const CLASS_COLLECTION_OR_ENTITY = 'collectionorentity';
-    const CLASS_ALL = 'all';
+    const QUERY_ALLOW_COMMENTS = "allowComments";
+    const QUERY_ALTITUDE = "altitude";
+    const QUERY_ATTRIBUTE = "attribute:%s:%s:%s";
+    const QUERY_BINARY_EXTS = "binaryExts";
+    const QUERY_BINARIES_JOBS_RESULTCODE = "binaries.jobs.%s.resultCode";
+    const QUERY_BINARIES_JOBS_STATUS = "binaries.jobs.%s.status";
+    const QUERY_BINARYNAMES = "binaryNames";
+    const QUERY_COPYRIGHT = "copyright";
+    const QUERY_CREATETIME = "createTime";
+    const QUERY_CREATOR_DISPLAY_NAME = "creator.displayName";
+    const QUERY_CREATOR_EXTERNAL_RESOURCE_TYPE = "creator.externalResourceType";
+    const QUERY_CREATOR_ID = "creator.id";
+    const QUERY_CREATOR_IS_VERIFIED = "creator.isVerified";
+    const QUERY_DOWNLOADS = "downloads";
+    const QUERY_EM_MATERIALS = "emMaterials";
+    const QUERY_EXTERNAL_ID = "externalId";
+    const QUERY_EXTERNAL_URL = "externalUrl";
+    const QUERY_ID = "id";
+    const QUERY_IS_HIDDEN = "isHidden";
+    const QUERY_IS_PRIVATE = "isPrivate";
+    const QUERY_LARGEST_BINARY_SIZE = "largestBinarySize";
+    const QUERY_LATITUDE = "latitude";
+    const QUERY_LONGITUDE = "longitude";
+    const QUERY_MODIFIER_ID = "modifierId";
+    const QUERY_MODIFIER_NAME = "modifierName";
+    const QUERY_MODIFY_TIME = "modifyTime";
+    const QUERY_OWNED_PARENT_IDS = "ownedParentIds";
+    const QUERY_PARENT_IDS = "parentIds";
+    const QUERY_POPULARITY = "popularity";
+    const QUERY_REVIEW_COUNT = "reviewCount";
+    const QUERY_REVIEWERS = "reviewers";
+    const QUERY_SOURCE = "source";
+    const QUERY_SUBTYPE = "subtype";
+    const QUERY_TAGS = "tags";
+    const QUERY_TITLE = "title";
+    const QUERY_TYPE = "type";
+    const QUERY_VIEWS = "views";
 
     /**
      * @var string
-     * @Serializer\Type("string")
+     * @Serializer\Exclude()
      */
     private $class;
+
     /**
      * @var string
      * @Serializer\Type("string")
@@ -27,27 +64,7 @@ class Query
      * @var string
      * @Serializer\Type("string")
      */
-    private $type;
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    private $externalUrl;
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    private $source;
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    private $title;
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    private $description;
+    private $contentType = Entity::CONTENT_TYPE_3DW;
     /**
      * @var string
      * @Serializer\Type("string")
@@ -57,72 +74,22 @@ class Query
      * @var string
      * @Serializer\Type("integer")
      */
-    private $startRow;
+    private $offset;
     /**
      * @var string
      * @Serializer\Type("integer")
      */
-    private $endRow;
+    private $count;
     /**
      * @var string
-     * @Serializer\Type("string")
+     * @Serializer\Type("array")
      */
-    private $containsId;
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    private $parentCollectionId;
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    private $parentCatalogId;
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    private $createUserDisplayName;
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    private $createUserId;
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    private $modifyUserDisplayName;
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    private $id;
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    private $excludeId;
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    private $reviewedByUser;
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    private $reviewCount;
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    private $fq;
+    private $fq = [];
 
     /**
      * @return string
      */
-    public function getClass()
+    public function getClass(): string
     {
         return $this->class;
     }
@@ -154,81 +121,17 @@ class Query
     /**
      * @return string
      */
-    public function getType()
+    public function getContentType(): string
     {
-        return $this->type;
+        return $this->contentType;
     }
 
     /**
-     * @param string $type
+     * @param string $contentType
      */
-    public function setType(string $type)
+    public function setContentType(string $contentType): void
     {
-        $this->type = $type;
-    }
-
-    /**
-     * @return string
-     */
-    public function getExternalUrl()
-    {
-        return $this->externalUrl;
-    }
-
-    /**
-     * @param string $externalUrl
-     */
-    public function setExternalUrl(string $externalUrl)
-    {
-        $this->externalUrl = $externalUrl;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSource()
-    {
-        return $this->source;
-    }
-
-    /**
-     * @param string $source
-     */
-    public function setSource(string $source)
-    {
-        $this->source = $source;
-    }
-
-    /**
-     * @return string
-     */
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    /**
-     * @param string $title
-     */
-    public function setTitle(string $title)
-    {
-        $this->title = $title;
-    }
-
-    /**
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * @param string $description
-     */
-    public function setDescription(string $description)
-    {
-        $this->description = $description;
+        $this->contentType = $contentType;
     }
 
     /**
@@ -250,193 +153,33 @@ class Query
     /**
      * @return string
      */
-    public function getStartRow()
+    public function getOffset()
     {
-        return $this->startRow;
+        return $this->offset;
     }
 
     /**
-     * @param string $startRow
+     * @param string $offset
      */
-    public function setStartRow(string $startRow)
+    public function setOffset(string $offset)
     {
-        $this->startRow = $startRow;
-    }
-
-    /**
-     * @return string
-     */
-    public function getEndRow()
-    {
-        return $this->endRow;
-    }
-
-    /**
-     * @param string $endRow
-     */
-    public function setEndRow(string $endRow)
-    {
-        $this->endRow = $endRow;
+        $this->offset = $offset;
     }
 
     /**
      * @return string
      */
-    public function getContainsId()
+    public function getCount()
     {
-        return $this->containsId;
+        return $this->count;
     }
 
     /**
-     * @param string $containsId
+     * @param string $count
      */
-    public function setContainsId(string $containsId)
+    public function setCount(string $count)
     {
-        $this->containsId = $containsId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getParentCollectionId()
-    {
-        return $this->parentCollectionId;
-    }
-
-    /**
-     * @param string $parentCollectionId
-     */
-    public function setParentCollectionId(string $parentCollectionId)
-    {
-        $this->parentCollectionId = $parentCollectionId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getParentCatalogId()
-    {
-        return $this->parentCatalogId;
-    }
-
-    /**
-     * @param string $parentCatalogId
-     */
-    public function setParentCatalogId(string $parentCatalogId)
-    {
-        $this->parentCatalogId = $parentCatalogId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCreateUserDisplayName()
-    {
-        return $this->createUserDisplayName;
-    }
-
-    /**
-     * @param string $createUserDisplayName
-     */
-    public function setCreateUserDisplayName(string $createUserDisplayName)
-    {
-        $this->createUserDisplayName = $createUserDisplayName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCreateUserId()
-    {
-        return $this->createUserId;
-    }
-
-    /**
-     * @param string $createUserId
-     */
-    public function setCreateUserId(string $createUserId)
-    {
-        $this->createUserId = $createUserId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getModifyUserDisplayName()
-    {
-        return $this->modifyUserDisplayName;
-    }
-
-    /**
-     * @param string $modifyUserDisplayName
-     */
-    public function setModifyUserDisplayName(string $modifyUserDisplayName)
-    {
-        $this->modifyUserDisplayName = $modifyUserDisplayName;
-    }
-
-    /**
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param string $id
-     */
-    public function setId(string $id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return string
-     */
-    public function getExcludeId()
-    {
-        return $this->excludeId;
-    }
-
-    /**
-     * @param string $excludeId
-     */
-    public function setExcludeId(string $excludeId)
-    {
-        $this->excludeId = $excludeId;
-    }
-
-    /**
-     * @return string
-     */
-    public function getReviewedByUser()
-    {
-        return $this->reviewedByUser;
-    }
-
-    /**
-     * @param string $reviewedByUser
-     */
-    public function setReviewedByUser(string $reviewedByUser)
-    {
-        $this->reviewedByUser = $reviewedByUser;
-    }
-
-    /**
-     * @return string
-     */
-    public function getReviewCount()
-    {
-        return $this->reviewCount;
-    }
-
-    /**
-     * @param string $reviewCount
-     */
-    public function setReviewCount(string $reviewCount)
-    {
-        $this->reviewCount = $reviewCount;
+        $this->count = $count;
     }
 
     /**
@@ -448,10 +191,142 @@ class Query
     }
 
     /**
-     * @param string $fq
+     * @param array $fq
      */
-    public function setFq(string $fq)
+    public function setFq(array $fq)
     {
         $this->fq = $fq;
+    }
+
+    /**
+     * @param string $key
+     * @param mixed $value
+     */
+    public function addtoFq($key, $value)
+    {
+        $this->fq[$key] = $value;
+    }
+
+    /**
+     * @param string $key
+     * @return mixed|null
+     */
+    public function getFromFq($key)
+    {
+        return array_key_exists($key, $this->fq) ? $this->fq[$key] : null;
+    }
+
+    //  FQ parameter setters
+
+    /**
+     * @param string $type
+     */
+    public function setType(string $type)
+    {
+        $this->addtoFq(self::QUERY_TYPE, $type);
+    }
+
+    /**
+     * @param string $externalUrl
+     */
+    public function setExternalUrl(string $externalUrl)
+    {
+        $this->addtoFq(self::QUERY_EXTERNAL_URL, $externalUrl);
+    }
+
+    /**
+     * @param string $source
+     */
+    public function setSource(string $source)
+    {
+        $this->addtoFq(self::QUERY_SOURCE, $source);
+    }
+
+    /**
+     * @param string $title
+     */
+    public function setTitle(string $title)
+    {
+        $this->addtoFq(self::QUERY_TITLE, $title);
+    }
+
+    /**
+     * @param string $containsId
+     */
+    public function setContainsId(string $containsId)
+    {
+        $this->containsId = $containsId;
+    }
+
+    /**
+     * @param string $parentCollectionId
+     */
+    public function setParentCollectionId(string $parentCollectionId)
+    {
+        $this->parentCollectionId = $parentCollectionId;
+    }
+
+    /**
+     * @param string $parentCatalogId
+     */
+    public function setParentCatalogId(string $parentCatalogId)
+    {
+        $this->parentCatalogId = $parentCatalogId;
+    }
+
+    /**
+     * @param string $createUserDisplayName
+     */
+    public function setCreateUserDisplayName(string $createUserDisplayName)
+    {
+        $this->addtoFq(self::QUERY_CREATOR_DISPLAY_NAME, $createUserDisplayName);
+    }
+
+    /**
+     * @param string $createUserId
+     */
+    public function setCreateUserId(string $createUserId)
+    {
+        $this->addtoFq(self::QUERY_CREATOR_ID, $createUserId);
+    }
+
+    /**
+     * @param string $modifierName
+     */
+    public function setModifierName(string $modifierName)
+    {
+        $this->addtoFq(self::QUERY_MODIFIER_NAME, $modifierName);
+    }
+
+    /**
+     * @param string $id
+     */
+    public function setId(string $id)
+    {
+        $this->addtoFq(self::QUERY_ID, $id);
+    }
+
+    /**
+     * @param string $excludeId
+     */
+    public function setExcludeId(string $excludeId)
+    {
+        $this->excludeId = $excludeId;
+    }
+
+    /**
+     * @param string $reviewedByUser
+     */
+    public function setReviewedByUser(string $reviewedByUser)
+    {
+        $this->reviewedByUser = $reviewedByUser;
+    }
+
+    /**
+     * @param string $reviewCount
+     */
+    public function setReviewCount(string $reviewCount)
+    {
+        $this->addtoFq(self::QUERY_REVIEW_COUNT, $reviewCount);
     }
 }

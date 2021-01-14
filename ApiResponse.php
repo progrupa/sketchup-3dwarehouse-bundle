@@ -20,13 +20,20 @@ class ApiResponse
     /**
      * @var string
      * @Serializer\Type("string")
+     * @Serializer\SerializedName("errorId")
      */
-    private $id;
+    private $errorId;
+    /**
+     * @var string
+     * @Serializer\Type("array")
+     * @Serializer\SerializedName("errorList")
+     */
+    private $errorList;
     /**
      * @var string
      * @Serializer\Type("string")
      */
-    private $errorId;
+    private $cause;
     /**
      * @var string
      * @Serializer\Type("string")
@@ -36,6 +43,10 @@ class ApiResponse
      * @var Resource
      */
     private $entity;
+    /**
+     * @var string
+     */
+    private $createdLocation;
 
     /**
      * @param integer $code
@@ -86,22 +97,6 @@ class ApiResponse
     /**
      * @return string
      */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param string $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
-     * @return string
-     */
     public function getErrorId()
     {
         return $this->errorId;
@@ -145,5 +140,53 @@ class ApiResponse
     public function setEntity($entity)
     {
         $this->entity = $entity;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCreatedLocation()
+    {
+        return $this->createdLocation;
+    }
+
+    /**
+     * @param string $createdLocation
+     */
+    public function setCreatedLocation(string $createdLocation)
+    {
+        $this->createdLocation = $createdLocation;
+    }
+
+    /**
+     * @return string
+     */
+    public function getErrorList()
+    {
+        return $this->errorList;
+    }
+
+    /**
+     * @param string $errorList
+     */
+    public function setErrorList(string $errorList)
+    {
+        $this->errorList = $errorList;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCause()
+    {
+        return $this->cause;
+    }
+
+    /**
+     * @param string $cause
+     */
+    public function setCause(string $cause)
+    {
+        $this->cause = $cause;
     }
 }

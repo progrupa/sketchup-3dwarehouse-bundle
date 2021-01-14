@@ -7,15 +7,19 @@ use JMS\Serializer\Annotation as Serializer;
 use JMS\Serializer\Annotation\Groups;
 use JMS\Serializer\Annotation\SerializedName;
 
-class Binary extends SubjectResource
+/**
+ * Class Binary
+ * @package Progrupa\Sketchup3DWarehouseBundle\Model
+ * @Serializer\ExclusionPolicy("all")
+ */
+class Binary extends SubjectResource implements MultipartResource
 {
-    const GET = 'getbinary';
-    const UPDATE = 'setbinary';
-    const DELETE = 'deletebinary';
+    const RESOURCE = 'binaries';
 
     /**
      * @var string
      * @Serializer\Type("string")
+     * @Serializer\Expose
      */
     private $name;
     /**
@@ -40,7 +44,7 @@ class Binary extends SubjectResource
      * @Serializer\Type("string")
      * @Serializer\Expose
      */
-    private $externalUrl;
+    private $contentUrl;
     /**
      * @var string
      * @Serializer\Type("string")
@@ -68,19 +72,19 @@ class Binary extends SubjectResource
      */
     private $file;
 
-    public function getResource()
-    {
-        return parent::getResource() . '&name='.$this->name;
-    }
-
     public function extraAttributes($groups = [])
     {
         return [
-            'binary' => fopen($this->file, 'r'),
-            'md5hash' => md5(file_get_contents($this->file)),
-            'task' => 'NEWMODEL',
-            'priority' => 50,
+//            'binary' => fopen($this->file, 'r'),
+//            'md5hash' => md5(file_get_contents($this->file)),
+//            'task' => 'NEWMODEL',
+//            'priority' => 50,
         ];
+    }
+
+    public function file()
+    {
+        return $this->getFile();
     }
 
     /**
@@ -150,17 +154,17 @@ class Binary extends SubjectResource
     /**
      * @return string
      */
-    public function getExternalUrl()
+    public function getContentUrl()
     {
-        return $this->externalUrl;
+        return $this->contentUrl;
     }
 
     /**
-     * @param string $externalUrl
+     * @param string $contentUrl
      */
-    public function setExternalUrl($externalUrl)
+    public function setContentUrl(string $contentUrl)
     {
-        $this->externalUrl = $externalUrl;
+        $this->contentUrl = $contentUrl;
     }
 
     /**

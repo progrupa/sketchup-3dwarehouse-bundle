@@ -7,9 +7,7 @@ use JMS\Serializer\Annotation as Serializer;
 
 class Attribute extends SubjectResource
 {
-    const GET = 'getattribute';
-    const UPDATE = 'setattribute';
-    const DELETE = 'deleteattribute';
+    const RESOURCE = 'attributes';
 
     const DATA_INT = 'int';
     const DATA_FLOAT = 'float';

@@ -7,18 +7,19 @@ use JMS\Serializer\Annotation\SerializedName;
 use JMS\Serializer\Annotation as Serializer;
 use Progrupa\Sketchup3DWarehouseBundle\Exception\InvalidArgumentException;
 
+/**
+ * Class SubjectResource
+ * @package Progrupa\Sketchup3DWarehouseBundle\Model
+ * @Serializer\ExclusionPolicy("all")
+ */
 abstract class SubjectResource implements WarehouseResource
 {
     /**
      * @var string
-     * @Serializer\Type("string")
-     * @SerializedName("subjectId")
      */
     protected $subjectId;
     /**
      * @var string
-     * @Serializer\Type("string")
-     * @SerializedName("subjectClass")
      */
     protected $subjectClass;
 
@@ -36,7 +37,7 @@ abstract class SubjectResource implements WarehouseResource
     {
         $class = get_called_class();
 
-        return new $class($obj->getId(), SubjectClass::fromResource($obj));
+        return new $class($obj->getId(), SubjectClass::pluralFromResource($obj));
     }
 
     /** @return array */
@@ -86,19 +87,10 @@ abstract class SubjectResource implements WarehouseResource
     /** @return string */
     public function getResource()
     {
-        return static::GET .sprintf('?subjectId=%s&subjectClass=%s', $this->getSubjectId(), $this->getSubjectClass());
+        return sprintf("%s/%s/%s",
+            $this->getSubjectClass(),
+            $this->getSubjectId(),
+            static::RESOURCE
+        );
     }
-
-    /** @return string */
-    public function updateResource()
-    {
-        return static::UPDATE .sprintf('?subjectId=%s&subjectClass=%s', $this->getId(), $this->getSubjectClass());
-    }
-
-    /** @return string */
-    public function deleteResource()
-    {
-        return static::DELETE .sprintf('?subjectId=%s&subjectClass=%s', $this->getId(), $this->getSubjectClass());
-    }
-
 }

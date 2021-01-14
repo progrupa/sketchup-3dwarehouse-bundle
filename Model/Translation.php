@@ -7,9 +7,7 @@ use JMS\Serializer\Annotation as Serializer;
 
 class Translation extends SubjectResource
 {
-    const GET = 'gettranslation';
-    const UPDATE = 'settranslation';
-    const DELETE = 'deletetranslation';
+    const RESOURCE = 'translations';
 
     /**
      * @var string

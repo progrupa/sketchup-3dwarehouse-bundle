@@ -37,19 +37,7 @@ abstract class GenericResource implements WarehouseResource
     /** @return string */
     public function getResource()
     {
-        return static::GET . ($this->getId() ? sprintf('?id=%s', $this->getId()) : '');
-    }
-
-    /** @return string */
-    public function updateResource()
-    {
-        return static::UPDATE .'?id='. $this->getId();
-    }
-
-    /** @return string */
-    public function deleteResource()
-    {
-        return static::DELETE .'?id='. $this->getId();
+        return static::RESOURCE . ($this->getId() ? sprintf('/%s', $this->getId()) : '');
     }
 
     /** @return array */

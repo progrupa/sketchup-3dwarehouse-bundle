@@ -5,10 +5,9 @@ namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 
-class CollectionElement extends GenericRelation
+class CollectionElement extends GenericRelation implements WarehouseRelation
 {
-    const UPDATE = 'setcollectioncontains';
-    const DELETE = 'deletecollectioncontains';
+    const RESOURCE = 'collections';
 
     /**
      * @var string
@@ -42,6 +41,21 @@ class CollectionElement extends GenericRelation
         $this->childClass = $childClass;
     }
 
+    public function getResource()
+    {
+        return sprintf("%s/%s/%s",
+            self::RESOURCE,
+            $this->getParentCollectionId(),
+            $this->getChildClass()
+        );
+    }
+
+    public function getParameters()
+    {
+        return [
+            'childIds' => [$this->getChildId()]
+        ];
+    }
 
     /**
      * @return string

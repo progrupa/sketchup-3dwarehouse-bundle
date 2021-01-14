@@ -3,20 +3,8 @@
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
 
-class GenericRelation implements WarehouseRelation
+abstract class GenericRelation implements WarehouseRelation
 {
-    /** @return string */
-    public function updateResource()
-    {
-        return static::UPDATE;
-    }
-
-    /** @return string */
-    public function deleteResource()
-    {
-        return static::DELETE;
-    }
-
     /**
      * @param Resource $parent
      * @param Resource $child
@@ -26,6 +14,6 @@ class GenericRelation implements WarehouseRelation
     {
         $class = get_called_class();
 
-        return new $class($parent->getId(), $child->getId(), SubjectClass::fromResource($child));
+        return new $class($parent->getId(), $child->getId(), SubjectClass::pluralFromResource($child));
     }
 }
