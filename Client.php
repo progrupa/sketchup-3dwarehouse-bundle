@@ -105,7 +105,7 @@ class Client
             if ($resource instanceof MultipartResource) {
                 $extraOptions = ['multipart' => $this->convertToMultipart([
                         'dto' => $this->serializer->serialize($updateParameters, 'json'),
-                        'file' => fopen($resource->file(), 'r'),
+                        'file' => is_resource($resource->file()) ? $resource->file() : fopen($resource->file(), 'r'),
                     ])
                 ];
             } else {
