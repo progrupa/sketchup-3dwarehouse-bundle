@@ -21,11 +21,15 @@ class Entity extends GenericResource implements BinaryContainingResource
     /**
      * @var string
      * @Serializer\Type("string")
+     * @Serializer\Expose
+     * @Serializer\Groups({"get"})
      */
     private $premiumCollectionId;
     /**
      * @var User
      * @Serializer\Type("Progrupa\Sketchup3DWarehouseBundle\Model\SimpleUserProjection")
+     * @Serializer\Expose
+     * @Serializer\Groups({"get"})
      */
     private $modifier;
     /**
@@ -68,41 +72,57 @@ class Entity extends GenericResource implements BinaryContainingResource
     /**
      * @var \DateTime
      * @Serializer\Type("DateTime<'Y-m-d H:i:s+'>")
+     * @Serializer\Expose
+     * @Serializer\Groups({"get"})
      */
     private $modifyTime;
     /**
      * @var integer
      * @Serializer\Type("integer")
+     * @Serializer\Expose
+     * @Serializer\Groups({"get"})
      */
     private $reviewCount;
     /**
      * @var integer
      * @Serializer\Type("integer")
+     * @Serializer\Expose
+     * @Serializer\Groups({"get"})
      */
     private $downloads;
     /**
      * @var integer
      * @Serializer\Type("integer")
+     * @Serializer\Expose
+     * @Serializer\Groups({"get"})
      */
     private $currentUserRating;
     /**
      * @var array
      * @Serializer\Type("array")
+     * @Serializer\Expose
+     * @Serializer\Groups({"get"})
      */
     private $translations;
     /**
      * @var float
      * @Serializer\Type("float")
+     * @Serializer\Expose
+     * @Serializer\Groups({"get"})
      */
     private $averageRating;
     /**
      * @var string
      * @Serializer\Type("string")
+     * @Serializer\Expose
+     * @Serializer\Groups({"get"})
      */
     private $accessRole;
     /**
      * @var array
      * @Serializer\Type("array<string>")
+     * @Serializer\Expose
+     * @Serializer\Groups({"get"})
      */
     private $binaryNames;
     /**
@@ -114,16 +134,22 @@ class Entity extends GenericResource implements BinaryContainingResource
     /**
      * @var integer
      * @Serializer\Type("integer")
+     * @Serializer\Expose
+     * @Serializer\Groups({"get"})
      */
     private $views;
     /**
      * @var User
      * @Serializer\Type("Progrupa\Sketchup3DWarehouseBundle\Model\SimpleUserProjection")
+     * @Serializer\Expose
+     * @Serializer\Groups({"get"})
      */
     private $creator;
     /**
      * @var array
      * @Serializer\Type("array")
+     * @Serializer\Expose
+     * @Serializer\Groups({"get"})
      */
     private $tags;
     /**
@@ -135,6 +161,8 @@ class Entity extends GenericResource implements BinaryContainingResource
     /**
      * @var integer
      * @Serializer\Type("integer")
+     * @Serializer\Expose
+     * @Serializer\Groups({"get"})
      */
     private $commentCount;
     /**
@@ -146,11 +174,15 @@ class Entity extends GenericResource implements BinaryContainingResource
     /**
      * @var \DateTime
      * @Serializer\Type("DateTime<'Y-m-d H:i:s+'>")
+     * @Serializer\Expose
+     * @Serializer\Groups({"get"})
      */
     private $createTime;
     /**
      * @var string
      * @Serializer\Type("string")
+     * @Serializer\Expose
+     * @Serializer\Groups({"get"})
      */
     private $parentCatalogId;
     /**
@@ -161,16 +193,22 @@ class Entity extends GenericResource implements BinaryContainingResource
     /**
      * @var array
      * @Serializer\Type("array")
+     * @Serializer\Expose
+     * @Serializer\Groups({"get"})
      */
     private $attributes;
     /**
      * @var array
      * @Serializer\Type("array")
+     * @Serializer\Expose
+     * @Serializer\Groups({"get"})
      */
     private $location;
     /**
      * @var array
      * @Serializer\Type("array")
+     * @Serializer\Expose
+     * @Serializer\Groups({"get"})
      */
     private $binaries;
 
@@ -644,5 +682,10 @@ class Entity extends GenericResource implements BinaryContainingResource
     public function setBinaries($binaries)
     {
         $this->binaries = $binaries;
+    }
+
+    public function hasBinary($filename)
+    {
+        return in_array($filename, $this->binaryNames);
     }
 }

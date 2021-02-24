@@ -55,6 +55,8 @@ class Collection extends GenericResource implements HierarchicalResource
     /**
      * @var SimpleUserProjection
      * @Serializer\Type("Progrupa\Sketchup3DWarehouseBundle\Model\SimpleUserProjection")
+     * @Serializer\Expose
+     * @Serializer\Groups({"get"})
      */
     private $modifier;
     /**
@@ -96,6 +98,8 @@ class Collection extends GenericResource implements HierarchicalResource
     /**
      * @var \DateTime
      * @Serializer\Type("DateTime<'Y-m-d H:i:s+'>")
+     * @Serializer\Expose
+     * @Serializer\Groups({"get"})
      */
     private $modifyTime;
     /**
@@ -113,6 +117,8 @@ class Collection extends GenericResource implements HierarchicalResource
     /**
      * @var array
      * @Serializer\Type("array")
+     * @Serializer\Expose
+     * @Serializer\Groups({"get"})
      */
     private $translations;
     /**
@@ -124,6 +130,8 @@ class Collection extends GenericResource implements HierarchicalResource
     /**
      * @var array
      * @Serializer\Type("array")
+     * @Serializer\Expose
+     * @Serializer\Groups({"get"})
      */
     private $binaryNames;
     /**
@@ -135,6 +143,8 @@ class Collection extends GenericResource implements HierarchicalResource
     /**
      * @var array
      * @Serializer\Type("array")
+     * @Serializer\Expose
+     * @Serializer\Groups({"get"})
      */
     private $editors;
     /**
@@ -146,6 +156,8 @@ class Collection extends GenericResource implements HierarchicalResource
     /**
      * @var SimpleUserProjection
      * @Serializer\Type("Progrupa\Sketchup3DWarehouseBundle\Model\SimpleUserProjection")
+     * @Serializer\Expose
+     * @Serializer\Groups({"get"})
      */
     private $creator;
     /**
@@ -187,6 +199,8 @@ class Collection extends GenericResource implements HierarchicalResource
     /**
      * @var \DateTime
      * @Serializer\Type("DateTime<'Y-m-d H:i:s+'>")
+     * @Serializer\Expose
+     * @Serializer\Groups({"get"})
      */
     private $createTime;
     /**
@@ -204,6 +218,8 @@ class Collection extends GenericResource implements HierarchicalResource
     /**
      * @var array
      * @Serializer\Type("array")
+     * @Serializer\Expose
+     * @Serializer\Groups({"get"})
      */
     private $attributes;
     /**
@@ -215,6 +231,8 @@ class Collection extends GenericResource implements HierarchicalResource
     /**
      * @var array
      * @Serializer\Type("array")
+     * @Serializer\Expose
+     * @Serializer\Groups({"get"})
      */
     private $binaries;
     /**
