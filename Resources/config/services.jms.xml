@@ -105,7 +105,7 @@
             <argument type="service" id="service_container" />
             <argument>sketchup_3dwarehouse.serializer.metadata_driver</argument>
         </service>
-        <service id="sketchup_3dwarehouse.serializer.metadata_driver" alias="sketchup_3dwarehouse.serializer.metadata.chain_driver" />
+        <service id="sketchup_3dwarehouse.serializer.metadata_driver" alias="sketchup_3dwarehouse.serializer.metadata.chain_driver" public="true"/>
 
         <!-- Metadata Factory -->
         <service id="sketchup_3dwarehouse.serializer.metadata.cache.file_cache" class="%sketchup_3dwarehouse.serializer.metadata.cache.file_cache.class%" public="false">
@@ -148,7 +148,7 @@
             <argument type="collection" /><!-- Deserialization Visitors -->
             <argument type="service" id="sketchup_3dwarehouse.serializer.event_dispatcher" />
         </service>
-        <service id="sketchup_3dwarehouse.serializer" alias="sketchup_3dwarehouse.serializer.serializer" /><!-- Preferred Alias -->
+        <service id="sketchup_3dwarehouse.serializer" alias="sketchup_3dwarehouse.serializer.serializer" public="true" /><!-- Preferred Alias -->
 
         <!-- Visitors -->
         <service id="sketchup_3dwarehouse.serializer.json_serialization_visitor" class="%sketchup_3dwarehouse.serializer.json_serialization_visitor.class%">
