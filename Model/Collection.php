@@ -4,7 +4,6 @@ namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
 
 use JMS\Serializer\Annotation as Serializer;
-use GuzzleHttp\Psr7;
 
 /**
  * @Serializer\ExclusionPolicy("all")

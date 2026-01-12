@@ -2,8 +2,6 @@
 
 namespace Progrupa\Sketchup3DWarehouseBundle;
 
-use GuzzleHttp\Cookie\CookieJar;
-use GuzzleHttp\Cookie\SetCookie;
 use GuzzleHttp\Exception\RequestException;
 use JMS\Serializer\DeserializationContext;
 use JMS\Serializer\SerializationContext;
