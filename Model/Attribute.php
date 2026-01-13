@@ -2,9 +2,6 @@
 
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
-
-use JMS\Serializer\Annotation as Serializer;
-
 class Attribute extends SubjectResource
 {
     const RESOURCE = 'attributes';
@@ -14,31 +11,11 @@ class Attribute extends SubjectResource
     const DATA_STRING = 'string';
     const DATA_BOOLEAN = 'boolean';
 
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    private $category;
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    private $name;
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    private $value;
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    private $dataType;
-    /**
-     * @var boolean
-     * @Serializer\Type("Su3DWBoolean")
-     */
-    private $doNotNotify;
+    private ?string $category = null;
+    private ?string $name = null;
+    private ?string $value = null;
+    private ?string $dataType = null;
+    private ?bool $doNotNotify = null;
 
     /**
      * @return string

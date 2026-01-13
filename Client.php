@@ -3,9 +3,8 @@
 namespace Progrupa\Sketchup3DWarehouseBundle;
 
 use GuzzleHttp\Exception\RequestException;
-use JMS\Serializer\DeserializationContext;
-use JMS\Serializer\SerializationContext;
-use JMS\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\SerializerInterface;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Progrupa\Sketchup3DWarehouseBundle\Model\Collection;
 use Progrupa\Sketchup3DWarehouseBundle\Model\Entity;
 use Progrupa\Sketchup3DWarehouseBundle\Model\HierarchicalResource;
@@ -72,7 +71,7 @@ class Client
     public function search(Query $query)
     {
         try {
-            $extraOptions = $this->serializer->serialize($query, 'array');
+            $extraOptions = $this->serializer->normalize($query);
             $extraOptions['fq'] = $this->convertToFiql($extraOptions['fq']);
 
             $guzzleResponse = $this->guzzle->get(
@@ -95,8 +94,9 @@ class Client
     {
         try {
             $groups = ['Default', 'update'];
+            $context = [AbstractNormalizer::GROUPS => $groups];
             $updateParameters = array_merge(
-                $this->serializer->serialize($resource, 'array', SerializationContext::create()->setGroups($groups)),
+                $this->serializer->normalize($resource, null, $context),
                 $resource->extraAttributes($groups)
             );
 
@@ -152,7 +152,8 @@ class Client
     {
         try {
             $groups = ['Default', 'update'];
-            $updateParameters = $this->serializer->serialize($relation, 'array', SerializationContext::create()->setGroups($groups));
+            $context = [AbstractNormalizer::GROUPS => $groups];
+            $updateParameters = $this->serializer->normalize($relation, null, $context);
             $response = $this->convertResponse(
                 $this->guzzle->patch(
                     $relation->getResource(),
@@ -172,7 +173,8 @@ class Client
     {
         try {
             $groups = ['Default', 'delete'];
-            $deleteParameters = $this->serializer->serialize($relation, 'array', SerializationContext::create()->setGroups($groups));
+            $context = [AbstractNormalizer::GROUPS => $groups];
+            $deleteParameters = $this->serializer->normalize($relation, null, $context);
             return $this->convertResponse(
                 $this->guzzle->delete(
                     $relation->getResource(),
@@ -249,7 +251,7 @@ class Client
                         break;
                 }
 
-                $entity = $this->serializer->deserialize($item, $class, 'array');
+                $entity = $this->serializer->denormalize($item, $class);
                 $result->addItem($entity);
             }
         }
@@ -260,15 +262,16 @@ class Client
     /**
      * @param $guzzleResponse
      * @param $entity
-     * @return array|\JMS\Serializer\scalar|object
+     * @return array|object
      */
     protected function entityFromResponse($guzzleResponse, $entity)
     {
+        $context = [AbstractNormalizer::GROUPS => ['Default', 'get']];
         return $this->serializer->deserialize(
             (string)$guzzleResponse->getBody(),
             get_class($entity),
             'json',
-            DeserializationContext::create()->setGroups(['Default', 'get'])
+            $context
         );
     }
 

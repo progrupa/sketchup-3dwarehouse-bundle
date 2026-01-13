@@ -28,16 +28,6 @@ class ProgrupaSketchup3DWarehouseExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.yml');
-        $loader->load('services.serializer.yml');
-
-        $xmlLoader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $xmlLoader->load('services.jms.xml');
-
-        $dir = $container->getParameterBag()->resolveValue('%sketchup_3dwarehouse.serializer.metadata.cache.file_cache.dir%');
-        if (!file_exists($dir)) {
-            if (!$rs = @mkdir($dir, 0777, true)) {
-                throw new \RuntimeException(sprintf('Could not create cache directory "%s".', $dir));
-            }
-        }
+        $loader->load('services.symfony_serializer.yml');
     }
 }

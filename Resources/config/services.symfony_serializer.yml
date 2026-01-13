@@ -1,0 +1,32 @@
+services:
+    sketchup_3dwarehouse.serializer:
+        class: Symfony\Component\Serializer\Serializer
+        arguments:
+            - !tagged_iterator serializer.normalizer
+            - !tagged_iterator serializer.encoder
+        public: true
+
+    sketchup_3dwarehouse.serializer.object_normalizer:
+        class: Symfony\Component\Serializer\Normalizer\ObjectNormalizer
+        arguments:
+            - '@serializer.mapping.class_metadata_factory'
+            - '@serializer.name_converter.metadata_aware'
+            - '@property_accessor'
+            - '@property_info'
+        tags:
+            - { name: serializer.normalizer, priority: -10 }
+
+    sketchup_3dwarehouse.serializer.datetime_normalizer:
+        class: Symfony\Component\Serializer\Normalizer\DateTimeNormalizer
+        tags:
+            - { name: serializer.normalizer, priority: 10 }
+
+    sketchup_3dwarehouse.serializer.array_denormalizer:
+        class: Symfony\Component\Serializer\Normalizer\ArrayDenormalizer
+        tags:
+            - { name: serializer.normalizer, priority: -20 }
+
+    sketchup_3dwarehouse.serializer.json_encoder:
+        class: Symfony\Component\Serializer\Encoder\JsonEncoder
+        tags:
+            - { name: serializer.encoder }
