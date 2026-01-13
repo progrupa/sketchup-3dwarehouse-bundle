@@ -12,13 +12,15 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 class Configuration implements ConfigurationInterface
 {
+    const ROOT_NODE = 'progrupa_sketchup3_d_warehouse';
+
     /**
      * {@inheritdoc}
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder('progrupa_sketchup3_d_warehouse');
-        $rootNode = method_exists($treeBuilder, 'getRootNode') ? $treeBuilder->getRootNode() : $treeBuilder->root('progrupa_sketchup3_d_warehouse');
+        $treeBuilder = new TreeBuilder(self::ROOT_NODE);
+        $rootNode = method_exists($treeBuilder, 'getRootNode') ? $treeBuilder->getRootNode() : $treeBuilder->root(self::ROOT_NODE);
         
         $rootNode
             ->children()
