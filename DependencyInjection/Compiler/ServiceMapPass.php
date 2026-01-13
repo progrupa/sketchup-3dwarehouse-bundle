@@ -25,7 +25,7 @@ use Symfony\Component\DependencyInjection\Reference;
  *
  * @author Johannes M. Schmitt <schmittjoh@gmail.com>
  */
-class ServiceMapPass implements CompilerPassInterface, \Serializable
+class ServiceMapPass implements CompilerPassInterface
 {
     private $tagName;
     private $keyAttributeName;
@@ -61,13 +61,13 @@ class ServiceMapPass implements CompilerPassInterface, \Serializable
         call_user_func($this->callable, $container, $def);
     }
 
-    public function serialize()
+    public function __serialize(): array
     {
-        return serialize(array($this->tagName, $this->keyAttributeName));
+        return [$this->tagName, $this->keyAttributeName];
     }
 
-    public function unserialize($str)
+    public function __unserialize(array $data): void
     {
-        list($this->tagName, $this->keyAttributeName) = unserialize($str);
+        [$this->tagName, $this->keyAttributeName] = $data;
     }
 }
