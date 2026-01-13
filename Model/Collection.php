@@ -2,9 +2,7 @@
 
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
-/**
 
- */
 class Collection extends GenericResource implements HierarchicalResource
 {
     const RESOURCE = 'collections';

@@ -1,4 +1,9 @@
 services:
+    sketchup_3dwarehouse.serializer.boolean_normalizer:
+        class: Progrupa\Sketchup3DWarehouseBundle\Serializer\BooleanNormalizer
+        tags:
+            - { name: 'serializer.normalizer' }
+
     sketchup_3dwarehouse.client:
         class: Progrupa\Sketchup3DWarehouseBundle\Client
         arguments:

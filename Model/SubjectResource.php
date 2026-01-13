@@ -5,10 +5,8 @@ namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 use Progrupa\Sketchup3DWarehouseBundle\Exception\InvalidArgumentException;
 
-/**
  * Class SubjectResource
  * @package Progrupa\Sketchup3DWarehouseBundle\Model
- */
 abstract class SubjectResource implements WarehouseResource
 {
     /**

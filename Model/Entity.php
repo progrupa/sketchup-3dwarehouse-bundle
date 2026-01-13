@@ -2,9 +2,6 @@
 
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
-/**
-
- */
 class Entity extends GenericResource implements BinaryContainingResource
 {
     use WithBinaries;
