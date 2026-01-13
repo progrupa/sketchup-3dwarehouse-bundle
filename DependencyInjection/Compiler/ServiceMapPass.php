@@ -68,6 +68,9 @@ class ServiceMapPass implements CompilerPassInterface
 
     public function __unserialize(array $data): void
     {
+        if (count($data) !== 2) {
+            throw new \RuntimeException('Invalid serialized data for ServiceMapPass.');
+        }
         [$this->tagName, $this->keyAttributeName] = $data;
     }
 }

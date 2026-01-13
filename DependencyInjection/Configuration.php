@@ -12,7 +12,7 @@ use Symfony\Component\Config\Definition\ConfigurationInterface;
  */
 class Configuration implements ConfigurationInterface
 {
-    const ROOT_NODE = 'progrupa_sketchup3_d_warehouse';
+    private const ROOT_NODE = 'progrupa_sketchup3_d_warehouse';
 
     /**
      * {@inheritdoc}
