@@ -2,15 +2,12 @@
 
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
-
-use JMS\Serializer\Annotation\SerializedName;
-use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Progrupa\Sketchup3DWarehouseBundle\Exception\InvalidArgumentException;
 
 /**
  * Class SubjectResource
  * @package Progrupa\Sketchup3DWarehouseBundle\Model
- * @Serializer\ExclusionPolicy("all")
  */
 abstract class SubjectResource implements WarehouseResource
 {

@@ -2,50 +2,22 @@
 
 namespace Progrupa\Sketchup3DWarehouseBundle;
 
-
-use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 class ApiResponse
 {
-    /**
-     * @var integer
-     * @Serializer\Type("integer")
-     */
     private $code;
-    /**
-     * @var boolean
-     * @Serializer\Type("boolean")
-     */
     private $success;
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     * @Serializer\SerializedName("errorId")
-     */
+    
+    #[SerializedName('errorId')]
     private $errorId;
-    /**
-     * @var string
-     * @Serializer\Type("array")
-     * @Serializer\SerializedName("errorList")
-     */
+    
+    #[SerializedName('errorList')]
     private $errorList;
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
+    
     private $cause;
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
     private $message;
-    /**
-     * @var Resource
-     */
     private $entity;
-    /**
-     * @var string
-     */
     private $createdLocation;
 
     /**

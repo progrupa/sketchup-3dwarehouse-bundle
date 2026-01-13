@@ -2,7 +2,6 @@
 
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
-
 abstract class GenericRelation implements WarehouseRelation
 {
     /**

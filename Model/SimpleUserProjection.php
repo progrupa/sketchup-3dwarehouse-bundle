@@ -2,19 +2,16 @@
 
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
-
-use JMS\Serializer\Annotation as Serializer;
-
 class SimpleUserProjection
 {
     /**
      * @var string
-     * @Serializer\Type("string")
+
      */
     private $id;
     /**
      * @var string
-     * @Serializer\Type("string")
+
      */
     private $displayName;
 

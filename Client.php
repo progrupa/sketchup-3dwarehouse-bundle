@@ -259,7 +259,7 @@ class Client
     /**
      * @param $guzzleResponse
      * @param $entity
-     * @return array|\JMS\Serializer\scalar|object
+     * @return object
      */
     protected function entityFromResponse($guzzleResponse, $entity)
     {
