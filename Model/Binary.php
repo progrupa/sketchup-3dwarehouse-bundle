@@ -5,8 +5,10 @@ namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\SerializedName;
 
+/**
  * Class Binary
  * @package Progrupa\Sketchup3DWarehouseBundle\Model
+ */
 class Binary extends SubjectResource implements MultipartResource
 {
     const RESOURCE = 'binaries';
