@@ -3,124 +3,100 @@
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
 
-use JMS\Serializer\Annotation as Serializer;
 class User extends GenericResource
 {
     const RESOURCE = 'users';
 
     /**
      * @var boolean
-     * @Serializer\Type("Su3DWBoolean")
      */
     private $canContactUser;
     /**
      * @var boolean
-     * @Serializer\Type("Su3DWBoolean")
      */
     private $isVerified;
     /**
      * @var string
-     * @Serializer\Type("string")
      */
     private $displayName;
     /**
      * @var SimpleUserProjection
-     * @Serializer\Type("Progrupa\Sketchup3DWarehouseBundle\Model\SimpleUserProjection")
      */
     private $modifier;
     /**
      * @var array
-     * @Serializer\Type("array")
      */
     private $roles;
     /**
      * @var string
-     * @Serializer\Type("string")
      */
     private $language;
     /**
      * @var string
-     * @Serializer\Type("string")
      */
     private $authProvider;
     /**
      * @var string
-     * @Serializer\Type("string")
      */
     private $emailAddress;
     /**
      * @var \DateTime
-     * @Serializer\Type("DateTime<'Y-m-d H:i:s+'>")
      */
     private $modifyTime;
     /**
      * @var string
-     * @Serializer\Type("string")
      */
     private $externalResourceType;
     /**
      * @var string
-     * @Serializer\Type("string")
      */
     private $customWarehouseUrl;
     /**
      * @var SimpleUserProjection
-     * @Serializer\Type("Progrupa\Sketchup3DWarehouseBundle\Model\SimpleUserProjection")
      */
     private $creator;
     /**
      * @var string
-     * @Serializer\Type("string")
      */
     private $externalId;
     /**
      * @var string
-     * @Serializer\Type("string")
      */
     private $picture;
     /**
      * @var integer
-     * @Serializer\Type("integer")
      */
     private $commentCount;
     /**
      * @var string
-     * @Serializer\Type("string")
      */
     private $masterId;
     /**
      * @var integer
-     * @Serializer\Type("array")
      */
     private $entityCount;
     /**
      * @var \DateTime
-     * @Serializer\Type("DateTime<'Y-m-d H:i:s+'>")
      */
     private $createTime;
     /**
      * @var integer
-     * @Serializer\Type("array")
      */
     private $collectionCount;
     /**
      * @var array
-     * @Serializer\Type("array")
      */
     private $attributes;
     /**
      * @var string
-     * @Serializer\Type("string")
      */
     private $trimbleId;
     /**
      * @var array
-     * @Serializer\Type("array")
      */
     private $binaries;
     /**
      * @var array
-     * @Serializer\Type("array")
      */
     private $notifications;
 

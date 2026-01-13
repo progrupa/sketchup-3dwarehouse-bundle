@@ -2,28 +2,13 @@
 
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
-
-use JMS\Serializer\Annotation as Serializer;
-
 class Translation extends SubjectResource
 {
     const RESOURCE = 'translations';
 
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    private $language;
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    private $name;
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
-    private $value;
+    private ?string $language = null;
+    private ?string $name = null;
+    private ?string $value = null;
 
     /**
      * @return string

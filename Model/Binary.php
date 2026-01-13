@@ -3,14 +3,10 @@
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
 
-use JMS\Serializer\Annotation as Serializer;
-use JMS\Serializer\Annotation\Groups;
-use JMS\Serializer\Annotation\SerializedName;
 
 /**
  * Class Binary
  * @package Progrupa\Sketchup3DWarehouseBundle\Model
- * @Serializer\ExclusionPolicy("all")
  */
 class Binary extends SubjectResource implements MultipartResource
 {
@@ -18,51 +14,40 @@ class Binary extends SubjectResource implements MultipartResource
 
     /**
      * @var string
-     * @Serializer\Type("string")
-     * @Serializer\Expose
      */
     private $name;
     /**
      * @var string
-     * @Serializer\Type("string")
      * @SerializedName("fn")
      * @Groups({"get"})
      */
     private $downloadFilename;
     /**
      * @var string
-     * @Serializer\Type("string")
      */
     private $title;
     /**
      * @var string
-     * @Serializer\Type("string")
      */
     private $description;
     /**
      * @var string
-     * @Serializer\Type("string")
-     * @Serializer\Expose
      */
     private $contentUrl;
     /**
      * @var string
-     * @Serializer\Type("string")
      */
     private $modelId;
     /**
      * @var boolean
-     * @Serializer\Type("Su3DWBoolean")
      */
     private $authorNickname;
     /**
      * @var string
-     * @Serializer\Type("string")
      */
     private $authorId;
     /**
      * @var string
-     * @Serializer\Type("string")
      * @Groups("update")
      */
     private $types;

@@ -4,7 +4,6 @@
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
 
-use JMS\Serializer\Annotation as Serializer;
 
 class Job extends GenericResource
 {
@@ -29,66 +28,51 @@ class Job extends GenericResource
 
     /**
      * @var string
-     * @Serializer\Type("string")
-     * @Serializer\Expose()
      */
     private $subjectId;
 
     /**
      * @var string
-     * @Serializer\Type("string")
-     * @Serializer\Expose()
      */
     private $name;
 
     /**
      * @var string
-     * @Serializer\Type("string")
-     * @Serializer\Expose()
      */
     private $jobType;
 
     /**
      * @var string
-     * @Serializer\Type("string")
-     * @Serializer\Expose()
      */
     private $status;
 
     /**
      * @var string
-     * @Serializer\Type("string")
      */
     private $resultCode;
 
     /**
      * @var integer
-     * @Serializer\Type("integer")
-     * @Serializer\Expose()
      */
     private $progress;
 
     /**
      * @var \DateTime
-     * @Serializer\Type("DateTime<'Y-m-d H:i:s+'>")
      */
     private $createTime;
 
     /**
      * @var \DateTime
-     * @Serializer\Type("DateTime<'Y-m-d H:i:s+'>")
      */
     private $modifyTime;
 
     /**
      * @var string
-     * @Serializer\Type("string")
      */
     private $state;
 
     /**
      * @var string
-     * @Serializer\Type("string")
      */
     private $details;
 

@@ -3,10 +3,8 @@
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
 
-use JMS\Serializer\Annotation as Serializer;
 
 /**
- * @Serializer\ExclusionPolicy("all")
  */
 class Collection extends GenericResource implements HierarchicalResource
 {
@@ -41,197 +39,126 @@ class Collection extends GenericResource implements HierarchicalResource
 
     /**
      * @var integer
-     * @Serializer\Type("integer")
-     * @Serializer\Expose
      */
     private $deepEntityCount;
     /**
      * @var string
-     * @Serializer\Type("string")
-     * @Serializer\Expose
      */
     private $premiumCollectionId;
     /**
      * @var SimpleUserProjection
-     * @Serializer\Type("Progrupa\Sketchup3DWarehouseBundle\Model\SimpleUserProjection")
-     * @Serializer\Expose
-     * @Serializer\Groups({"get"})
      */
     private $modifier;
     /**
      * @var string
-     * @Serializer\Type("string")
-     * @Serializer\Expose
      */
     private $description = "";
     /**
      * @var string
-     * @Serializer\Type("string")
-     * @Serializer\Expose
      */
     private $externalUrl;
     /**
      * @var string
-     * @Serializer\Type("string")
-     * @Serializer\Expose
      */
     private $source;
     /**
      * @var boolean
-     * @Serializer\Type("Su3DWBoolean")
-     * @Serializer\Expose
      */
     private $isPrivate = false;
     /**
      * @var string
-     * @Serializer\Type("string")
-     * @Serializer\Expose
      */
     private $type;
     /**
      * @var string
-     * @Serializer\Type("string")
-     * @Serializer\Expose
      */
     private $title = "";
     /**
      * @var \DateTime
-     * @Serializer\Type("DateTime<'Y-m-d H:i:s+'>")
-     * @Serializer\Expose
-     * @Serializer\Groups({"get"})
      */
     private $modifyTime;
     /**
      * @var integer
-     * @Serializer\Type("integer")
-     * @Serializer\Expose
      */
     private $reviewCount;
     /**
      * @var integer
-     * @Serializer\Type("integer")
-     * @Serializer\Expose
      */
     private $currentUserRating;
     /**
      * @var array
-     * @Serializer\Type("array")
-     * @Serializer\Expose
-     * @Serializer\Groups({"get"})
      */
     private $translations;
     /**
      * @var float
-     * @Serializer\Type("float")
-     * @Serializer\Expose
      */
     private $averageRating;
     /**
      * @var array
-     * @Serializer\Type("array")
-     * @Serializer\Expose
-     * @Serializer\Groups({"get"})
      */
     private $binaryNames;
     /**
      * @var string
-     * @Serializer\Type("string")
-     * @Serializer\Expose
      */
     private $contentType = Entity::CONTENT_TYPE_3DW;
     /**
      * @var array
-     * @Serializer\Type("array")
-     * @Serializer\Expose
-     * @Serializer\Groups({"get"})
      */
     private $editors;
     /**
      * @var boolean
-     * @Serializer\Type("Su3DWBoolean")
-     * @Serializer\Expose
      */
     private $isCatalog;
     /**
      * @var SimpleUserProjection
-     * @Serializer\Type("Progrupa\Sketchup3DWarehouseBundle\Model\SimpleUserProjection")
-     * @Serializer\Expose
-     * @Serializer\Groups({"get"})
      */
     private $creator;
     /**
      * @var integer
-     * @Serializer\Type("integer")
-     * @Serializer\Expose
      */
     private $deepCollectionCount;
     /**
      * @var array
-     * @Serializer\Type("array")
-     * @Serializer\Expose
      */
     private $tags = [];
     /**
      * @var boolean
-     * @Serializer\Type("Su3DWBoolean")
-     * @Serializer\Expose
      */
     private $isHidden = false;
     /**
      * @var integer
-     * @Serializer\Type("integer")
-     * @Serializer\Expose
      */
     private $commentCount;
     /**
      * @var boolean
-     * @Serializer\Type("Su3DWBoolean")
-     * @Serializer\Expose
      */
     private $allowComments = true;
     /**
      * @var integer
-     * @Serializer\Type("integer")
-     * @Serializer\Expose
      */
     private $entityCount;
     /**
      * @var \DateTime
-     * @Serializer\Type("DateTime<'Y-m-d H:i:s+'>")
-     * @Serializer\Expose
-     * @Serializer\Groups({"get"})
      */
     private $createTime;
     /**
      * @var string
-     * @Serializer\Type("string")
-     * @Serializer\Expose
      */
     private $parentCatalogId;
     /**
      * @var integer
-     * @Serializer\Type("integer")
-     * @Serializer\Expose
      */
     private $collectionCount;
     /**
      * @var array
-     * @Serializer\Type("array")
-     * @Serializer\Expose
-     * @Serializer\Groups({"get"})
      */
     private $attributes;
     /**
      * @var boolean
-     * @Serializer\Type("Su3DWBoolean")
-     * @Serializer\Expose
      */
     private $isPremium;
     /**
      * @var array
-     * @Serializer\Type("array")
-     * @Serializer\Expose
-     * @Serializer\Groups({"get"})
      */
     private $binaries;
     /**

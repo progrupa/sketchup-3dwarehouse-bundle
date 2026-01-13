@@ -3,7 +3,6 @@
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
 
-use JMS\Serializer\Annotation as Serializer;
 
 class CollectionElement extends GenericRelation implements WarehouseRelation
 {
@@ -11,20 +10,14 @@ class CollectionElement extends GenericRelation implements WarehouseRelation
 
     /**
      * @var string
-     * @Serializer\Type("string")
-     * @Serializer\SerializedName("parentCollectionId")
      */
     private $parentCollectionId;
     /**
      * @var string
-     * @Serializer\Type("string")
-     * @Serializer\SerializedName("childClass")
      */
     private $childClass;
     /**
      * @var string
-     * @Serializer\Type("string")
-     * @Serializer\SerializedName("childId")
      */
     private $childId;
 
