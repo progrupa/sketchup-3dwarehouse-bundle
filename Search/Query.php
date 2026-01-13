@@ -1,7 +1,7 @@
 <?php
 namespace Progrupa\Sketchup3DWarehouseBundle\Search;
 
-use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Serializer\Annotation\Ignore;
 use Progrupa\Sketchup3DWarehouseBundle\Model\Entity;
 
 class Query
@@ -50,40 +50,15 @@ class Query
     const QUERY_VIEWS = "views";
 
     /**
-     * @var string
-     * @Serializer\Exclude()
+     * @Ignore()
      */
     private $class;
 
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
     private $q;
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
     private $contentType = Entity::CONTENT_TYPE_3DW;
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
     private $sortBy;
-    /**
-     * @var string
-     * @Serializer\Type("integer")
-     */
     private $offset;
-    /**
-     * @var string
-     * @Serializer\Type("integer")
-     */
     private $count;
-    /**
-     * @var string
-     * @Serializer\Type("array")
-     */
     private $fq = [];
 
     /**

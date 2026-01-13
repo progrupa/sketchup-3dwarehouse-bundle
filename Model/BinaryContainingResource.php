@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
-
 
 interface BinaryContainingResource
 {

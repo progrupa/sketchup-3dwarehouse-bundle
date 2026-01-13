@@ -2,50 +2,26 @@
 
 namespace Progrupa\Sketchup3DWarehouseBundle;
 
-
-use JMS\Serializer\Annotation as Serializer;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 
 class ApiResponse
 {
-    /**
-     * @var integer
-     * @Serializer\Type("integer")
-     */
     private $code;
-    /**
-     * @var boolean
-     * @Serializer\Type("boolean")
-     */
     private $success;
+    
     /**
-     * @var string
-     * @Serializer\Type("string")
-     * @Serializer\SerializedName("errorId")
+     * @SerializedName("errorId")
      */
     private $errorId;
+    
     /**
-     * @var string
-     * @Serializer\Type("array")
-     * @Serializer\SerializedName("errorList")
+     * @SerializedName("errorList")
      */
     private $errorList;
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
+    
     private $cause;
-    /**
-     * @var string
-     * @Serializer\Type("string")
-     */
     private $message;
-    /**
-     * @var Resource
-     */
     private $entity;
-    /**
-     * @var string
-     */
     private $createdLocation;
 
     /**
@@ -143,7 +119,7 @@ class ApiResponse
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getCreatedLocation()
     {
@@ -151,9 +127,9 @@ class ApiResponse
     }
 
     /**
-     * @param string $createdLocation
+     * @param string|null $createdLocation
      */
-    public function setCreatedLocation(string $createdLocation)
+    public function setCreatedLocation($createdLocation)
     {
         $this->createdLocation = $createdLocation;
     }
@@ -167,15 +143,15 @@ class ApiResponse
     }
 
     /**
-     * @param string $errorList
+     * @param array|string|null $errorList
      */
-    public function setErrorList(string $errorList)
+    public function setErrorList($errorList)
     {
         $this->errorList = $errorList;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getCause()
     {
@@ -183,9 +159,9 @@ class ApiResponse
     }
 
     /**
-     * @param string $cause
+     * @param string|null $cause
      */
-    public function setCause(string $cause)
+    public function setCause($cause)
     {
         $this->cause = $cause;
     }

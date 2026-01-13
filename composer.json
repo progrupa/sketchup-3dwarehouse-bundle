@@ -1,5 +1,6 @@
 {
     "name":         "progrupa/sketchup-3dwarehouse-bundle",
+    "description":  "Symfony bundle for integrating with SketchUp 3D Warehouse API",
     "type":         "symfony-bundle",
     "license":      "proprietary",
     "autoload": {
@@ -10,11 +11,10 @@
     "require": {
         "php": ">=7.2.5",
         "guzzlehttp/guzzle": "^7.4.5",
-        "jms/serializer": "^1.11 || ^2.0",
-        "sensio/framework-extra-bundle": ">=3.0.2",
-        "symfony/framework-bundle": "~2.6 || ^3.0 || ^4.0"
-    },
-    "require-dev": {
+        "symfony/framework-bundle": "^5.0",
+        "symfony/serializer": "^5.0",
+        "symfony/property-access": "^5.0",
+        "doctrine/annotations": "^2.0"
     },
     "extra": {
     }

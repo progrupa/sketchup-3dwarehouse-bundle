@@ -2,7 +2,6 @@
 
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
-
 interface WarehouseRelation
 {
     /** @return string */

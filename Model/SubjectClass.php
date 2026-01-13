@@ -2,7 +2,6 @@
 
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
-
 use Progrupa\Sketchup3DWarehouseBundle\Exception\InvalidArgumentException;
 
 class SubjectClass
