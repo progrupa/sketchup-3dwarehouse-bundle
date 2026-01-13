@@ -1,7 +1,6 @@
 <?php
 namespace Progrupa\Sketchup3DWarehouseBundle\Search;
 
-use JMS\Serializer\Annotation as Serializer;
 use Progrupa\Sketchup3DWarehouseBundle\Model\Collection;
 use Progrupa\Sketchup3DWarehouseBundle\Model\Entity;
 use Progrupa\Sketchup3DWarehouseBundle\Model\GenericResource;
@@ -10,42 +9,34 @@ class Result
 {
     /**
      * @var integer
-     * @Serializer\Type("integer")
      */
     private $code;
     /**
      * @var boolean
-     * @Serializer\Type("Su3DWBoolean")
      */
     private $success;
     /**
      * @var string
-     * @Serializer\Type("string")
      */
     private $errorId;
     /**
      * @var string
-     * @Serializer\Type("string")
      */
     private $message;
     /**
      * @var integer
-     * @Serializer\Type("integer")
      */
     private $total;
     /**
      * @var integer
-     * @Serializer\Type("integer")
      */
     private $startRow;
     /**
      * @var integer
-     * @Serializer\Type("integer")
      */
     private $endRow;
     /**
      * @var array
-     * @Serializer\Type("array")
      */
     private $entries;
     /** @var array|GenericResource[] */

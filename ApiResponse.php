@@ -3,40 +3,31 @@
 namespace Progrupa\Sketchup3DWarehouseBundle;
 
 
-use JMS\Serializer\Annotation as Serializer;
 
 class ApiResponse
 {
     /**
      * @var integer
-     * @Serializer\Type("integer")
      */
     private $code;
     /**
      * @var boolean
-     * @Serializer\Type("boolean")
      */
     private $success;
     /**
      * @var string
-     * @Serializer\Type("string")
-     * @Serializer\SerializedName("errorId")
      */
     private $errorId;
     /**
      * @var string
-     * @Serializer\Type("array")
-     * @Serializer\SerializedName("errorList")
      */
     private $errorList;
     /**
      * @var string
-     * @Serializer\Type("string")
      */
     private $cause;
     /**
      * @var string
-     * @Serializer\Type("string")
      */
     private $message;
     /**
