@@ -9,10 +9,14 @@ class ApiResponse
     private $code;
     private $success;
     
-    #[SerializedName('errorId')]
+    /**
+     * @SerializedName("errorId")
+     */
     private $errorId;
     
-    #[SerializedName('errorList')]
+    /**
+     * @SerializedName("errorList")
+     */
     private $errorList;
     
     private $cause;
@@ -115,7 +119,7 @@ class ApiResponse
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getCreatedLocation()
     {
@@ -123,9 +127,9 @@ class ApiResponse
     }
 
     /**
-     * @param string $createdLocation
+     * @param string|null $createdLocation
      */
-    public function setCreatedLocation(string $createdLocation)
+    public function setCreatedLocation($createdLocation)
     {
         $this->createdLocation = $createdLocation;
     }
@@ -139,15 +143,15 @@ class ApiResponse
     }
 
     /**
-     * @param string $errorList
+     * @param array|string|null $errorList
      */
-    public function setErrorList(string $errorList)
+    public function setErrorList($errorList)
     {
         $this->errorList = $errorList;
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getCause()
     {
@@ -155,9 +159,9 @@ class ApiResponse
     }
 
     /**
-     * @param string $cause
+     * @param string|null $cause
      */
-    public function setCause(string $cause)
+    public function setCause($cause)
     {
         $this->cause = $cause;
     }

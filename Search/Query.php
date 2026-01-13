@@ -49,7 +49,9 @@ class Query
     const QUERY_TYPE = "type";
     const QUERY_VIEWS = "views";
 
-    #[Ignore]
+    /**
+     * @Ignore()
+     */
     private $class;
 
     private $q;

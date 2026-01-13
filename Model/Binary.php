@@ -21,9 +21,9 @@ class Binary extends SubjectResource implements MultipartResource
     
     /**
      * @var string
+     * @SerializedName("fn")
+     * @Groups({"get"})
      */
-    #[SerializedName('fn')]
-    #[Groups(['get'])]
     private $downloadFilename;
     
     /**
@@ -53,8 +53,8 @@ class Binary extends SubjectResource implements MultipartResource
     
     /**
      * @var string
+     * @Groups({"update"})
      */
-    #[Groups(['update'])]
     private $types;
 
     /**

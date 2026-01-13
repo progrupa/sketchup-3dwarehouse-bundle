@@ -13,9 +13,8 @@
         "guzzlehttp/guzzle": "^7.4.5",
         "symfony/framework-bundle": "^5.0",
         "symfony/serializer": "^5.0",
-        "symfony/property-access": "^5.0"
-    },
-    "require-dev": {
+        "symfony/property-access": "^5.0",
+        "doctrine/annotations": "^2.0"
     },
     "extra": {
     }
