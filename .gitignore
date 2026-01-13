@@ -29,6 +29,7 @@ build/*
 
 # Composer
 composer.phar
+composer.lock
 
 # phpstorm
 .idea
