@@ -10,7 +10,7 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class BooleanNormalizer implements NormalizerInterface, DenormalizerInterface
 {
-    public function normalize($object, string $format = null, array $context = [])
+    public function normalize(mixed $object, ?string $format = null, array $context = []): array|string|int|float|bool|\ArrayObject|null
     {
         if ($object === null) {
             return null;
@@ -18,12 +18,12 @@ class BooleanNormalizer implements NormalizerInterface, DenormalizerInterface
         return $object ? 'true' : 'false';
     }
 
-    public function supportsNormalization($data, string $format = null, array $context = []): bool
+    public function supportsNormalization(mixed $data, ?string $format = null, array $context = []): bool
     {
         return is_bool($data) && isset($context['su3dw_boolean']) && $context['su3dw_boolean'] === true;
     }
 
-    public function denormalize($data, string $type, string $format = null, array $context = [])
+    public function denormalize(mixed $data, string $type, ?string $format = null, array $context = []): mixed
     {
         if ($data === null || $data === '') {
             return null;
@@ -31,7 +31,7 @@ class BooleanNormalizer implements NormalizerInterface, DenormalizerInterface
         return strtolower($data) === 'true';
     }
 
-    public function supportsDenormalization($data, string $type, string $format = null, array $context = []): bool
+    public function supportsDenormalization(mixed $data, string $type, ?string $format = null, array $context = []): bool
     {
         return isset($context['su3dw_boolean']) && $context['su3dw_boolean'] === true;
     }
