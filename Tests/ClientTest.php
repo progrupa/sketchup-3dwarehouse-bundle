@@ -98,6 +98,24 @@ class ClientTest extends TestCase
         self::assertSame('PARAM_MUST_NOT_BE_EMPTY', $resp->getErrorId());
     }
 
+    public function testCreatePreservesSuccessWhenReadBackIsNotYetConsistent(): void
+    {
+        // POST succeeds (201 Created) but the immediate read-back of the new
+        // Location 404s because 3DW has not made the entity readable yet
+        // (eventual consistency). The create must still be reported as a success
+        // and expose the new id parsed from the Location header.
+        $client = $this->client([
+            new Response(201, ['Location' => 'https://example.test/warehouse/v1.0/entities/new-id']),
+            new Response(404, [], json_encode(['message' => "Entity with id 'new-id' does not exist", 'errorId' => 'NOT_FOUND'])),
+        ]);
+
+        $resp = $client->updateResource(new Entity());
+
+        self::assertTrue($resp->isSuccess(), 'a 201-created entity must remain a success even if the read-back 404s');
+        self::assertInstanceOf(Entity::class, $resp->getEntity());
+        self::assertSame('new-id', $resp->getEntity()->getId());
+    }
+
     public function testBinaryUploadSendsMultipartWithDtoAndFile(): void
     {
         $client = $this->client([

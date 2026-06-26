@@ -7,6 +7,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Progrupa\Sketchup3DWarehouseBundle\Model\Collection;
 use Progrupa\Sketchup3DWarehouseBundle\Model\Entity;
+use Progrupa\Sketchup3DWarehouseBundle\Model\GenericResource;
 use Progrupa\Sketchup3DWarehouseBundle\Model\HierarchicalResource;
 use Progrupa\Sketchup3DWarehouseBundle\Model\MultipartResource;
 use Progrupa\Sketchup3DWarehouseBundle\Model\SubjectClass;
@@ -118,11 +119,22 @@ class Client
             );
 
             if ($response->getCreatedLocation()) {  //  Fetch the created object
-                $createdResponse = $this->guzzle->get(
-                    $response->getCreatedLocation(),
-                    $this->prepareOptions()
-                );
-                $response->setEntity($this->entityFromResponse($createdResponse, $resource));
+                try {
+                    $createdResponse = $this->guzzle->get(
+                        $response->getCreatedLocation(),
+                        $this->prepareOptions()
+                    );
+                    $response->setEntity($this->entityFromResponse($createdResponse, $resource));
+                } catch (RequestException $e) {
+                    //  The resource was created (201) but is not readable yet
+                    //  (eventual consistency). Keep the success and expose the new
+                    //  id parsed from the Location header so callers persist the
+                    //  reference instead of orphaning the created resource.
+                    if ($resource instanceof GenericResource) {
+                        $resource->setId($this->idFromLocation($response->getCreatedLocation()));
+                    }
+                    $response->setEntity($resource);
+                }
             } elseif ($response->getCode() == 204) {    //  Patched OK
                 $response->setEntity($resource);
             }
@@ -269,6 +281,13 @@ class Client
             'json',
             [AbstractNormalizer::GROUPS => ['Default', 'get']]
         );
+    }
+
+    private function idFromLocation($location)
+    {
+        $path = parse_url((string) $location, PHP_URL_PATH);
+
+        return basename(is_string($path) ? $path : (string) $location);
     }
 
     private function convertToMultipart($data)
