@@ -2,8 +2,6 @@
 
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
-use Symfony\Component\Serializer\Annotation\SerializedName;
-use Progrupa\Sketchup3DWarehouseBundle\Exception\InvalidArgumentException;
 
 /**
  * Class SubjectResource
@@ -20,7 +18,7 @@ abstract class SubjectResource implements WarehouseResource
      */
     protected $subjectClass;
 
-    public function __construct($subjectId, $subjectClass)
+    public function __construct($subjectId = null, $subjectClass = null)
     {
         $this->subjectId = $subjectId;
         $this->subjectClass = $subjectClass;

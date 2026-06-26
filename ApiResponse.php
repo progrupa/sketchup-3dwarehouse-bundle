@@ -2,23 +2,12 @@
 
 namespace Progrupa\Sketchup3DWarehouseBundle;
 
-use Symfony\Component\Serializer\Annotation\SerializedName;
-
 class ApiResponse
 {
     private $code;
     private $success;
-    
-    /**
-     * @SerializedName("errorId")
-     */
     private $errorId;
-    
-    /**
-     * @SerializedName("errorList")
-     */
     private $errorList;
-    
     private $cause;
     private $message;
     private $entity;
@@ -30,7 +19,7 @@ class ApiResponse
      * @param string $errorId
      * @param string $message
      */
-    public function __construct($code, $success = true, $errorId = '', $message = '')
+    public function __construct($code = null, $success = true, $errorId = '', $message = '')
     {
         $this->code = $code;
         $this->success = $success;

@@ -1,14 +1,17 @@
 services:
-    sketchup_3dwarehouse.serializer.boolean_normalizer:
-        class: Progrupa\Sketchup3DWarehouseBundle\Serializer\BooleanNormalizer
-        tags:
-            - { name: 'serializer.normalizer' }
+    # Dedicated serializer, decoupled from the host application's shared serializer
+    # (which enforces groups via a metadata factory and snake_cases keys). The 3D
+    # Warehouse API requires camelCase and the bundle's models carry their read/write
+    # contract as #[Groups]/#[SerializedName] attributes.
+    sketchup_3dwarehouse.serializer:
+        class: Symfony\Component\Serializer\Serializer
+        factory: ['Progrupa\Sketchup3DWarehouseBundle\Serializer\WarehouseSerializerFactory', 'create']
 
     sketchup_3dwarehouse.client:
         class: Progrupa\Sketchup3DWarehouseBundle\Client
         arguments:
             - "@sketchup_3dwarehouse.guzzle"
-            - "@serializer"
+            - "@sketchup_3dwarehouse.serializer"
             - "%progrupa.sketchup_3dwarehouse.authentication_id%"
             - "%progrupa.sketchup_3dwarehouse.secret%"
 
@@ -16,7 +19,7 @@ services:
         class: Progrupa\Sketchup3DWarehouseBundle\Client
         arguments:
             - "@sketchup_3dwarehouse.guzzle"
-            - "@serializer"
+            - "@sketchup_3dwarehouse.serializer"
 
     sketchup_3dwarehouse.guzzle.cookies:
         class: GuzzleHttp\Cookie\CookieJar

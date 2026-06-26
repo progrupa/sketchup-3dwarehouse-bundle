@@ -2,6 +2,8 @@
 
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
+use Symfony\Component\Serializer\Attribute\Groups;
+
 
 class Collection extends GenericResource implements HierarchicalResource
 {
@@ -53,31 +55,37 @@ class Collection extends GenericResource implements HierarchicalResource
      * @var string
 
      */
+    #[Groups(['Default'])]
     private $description = "";
     /**
      * @var string
 
      */
+    #[Groups(['Default'])]
     private $externalUrl;
     /**
      * @var string
 
      */
+    #[Groups(['Default'])]
     private $source;
     /**
      * @var boolean
 
      */
+    #[Groups(['Default'])]
     private $isPrivate = false;
     /**
      * @var string
 
      */
+    #[Groups(['Default'])]
     private $type;
     /**
      * @var string
 
      */
+    #[Groups(['Default'])]
     private $title = "";
     /**
      * @var \DateTime
@@ -108,11 +116,13 @@ class Collection extends GenericResource implements HierarchicalResource
      * @var array
 
      */
+    #[Groups(['get'])]
     private $binaryNames;
     /**
      * @var string
 
      */
+    #[Groups(['Default'])]
     private $contentType = Entity::CONTENT_TYPE_3DW;
     /**
      * @var array
@@ -138,11 +148,13 @@ class Collection extends GenericResource implements HierarchicalResource
      * @var array
 
      */
+    #[Groups(['Default'])]
     private $tags = [];
     /**
      * @var boolean
 
      */
+    #[Groups(['Default'])]
     private $isHidden = false;
     /**
      * @var integer
@@ -153,6 +165,7 @@ class Collection extends GenericResource implements HierarchicalResource
      * @var boolean
 
      */
+    #[Groups(['Default'])]
     private $allowComments = true;
     /**
      * @var integer

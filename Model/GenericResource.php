@@ -2,8 +2,11 @@
 
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
+use Symfony\Component\Serializer\Attribute\Groups;
+
 abstract class GenericResource implements WarehouseResource
 {
+    #[Groups(['get'])]
     protected $id;
 
     public function __construct($id = null)

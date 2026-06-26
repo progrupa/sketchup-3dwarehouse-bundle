@@ -2,6 +2,8 @@
 
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
+use Symfony\Component\Serializer\Attribute\Groups;
+
 class Entity extends GenericResource implements BinaryContainingResource
 {
     use WithBinaries;
@@ -26,32 +28,38 @@ class Entity extends GenericResource implements BinaryContainingResource
      * @var string
 
      */
+    #[Groups(['Default'])]
     private $description;
     /**
      * @var string
 
      */
+    #[Groups(['Default'])]
     private $externalUrl;
     /**
      * @var string
 
      */
+    #[Groups(['Default'])]
     private $source;
     /**
      * @var boolean
 
      */
+    #[Groups(['Default'])]
     private $isPrivate = false;
     /**
      * @var string
 
      */
+    #[Groups(['Default'])]
     private $title;
     /**
      * @var string
 
      * @TODO Enum?
      */
+    #[Groups(['Default'])]
     private $type;
     /**
      * @var \DateTime
@@ -67,6 +75,7 @@ class Entity extends GenericResource implements BinaryContainingResource
      * @var integer
 
      */
+    #[Groups(['get'])]
     private $downloads;
     /**
      * @var integer
@@ -92,11 +101,13 @@ class Entity extends GenericResource implements BinaryContainingResource
      * @var array
 
      */
+    #[Groups(['get'])]
     private $binaryNames;
     /**
      * @var string
 
      */
+    #[Groups(['Default'])]
     private $contentType = Entity::CONTENT_TYPE_3DW;
     /**
      * @var integer
@@ -112,11 +123,13 @@ class Entity extends GenericResource implements BinaryContainingResource
      * @var array
 
      */
+    #[Groups(['Default'])]
     private $tags;
     /**
      * @var boolean
 
      */
+    #[Groups(['Default'])]
     private $isHidden = false;
     /**
      * @var integer
@@ -127,6 +140,7 @@ class Entity extends GenericResource implements BinaryContainingResource
      * @var boolean
 
      */
+    #[Groups(['Default'])]
     private $allowComments = true;
     /**
      * @var \DateTime

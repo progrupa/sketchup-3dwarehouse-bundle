@@ -2,8 +2,8 @@
 
 namespace Progrupa\Sketchup3DWarehouseBundle\Model;
 
-use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Serializer\Attribute\Groups;
+use Symfony\Component\Serializer\Attribute\SerializedName;
 
 /**
  * Class Binary
@@ -17,13 +17,14 @@ class Binary extends SubjectResource implements MultipartResource
      * @var string
 
      */
+    #[Groups(['Default'])]
     private $name;
     
     /**
      * @var string
-     * @SerializedName("fn")
-     * @Groups({"get"})
      */
+    #[Groups(['get'])]
+    #[SerializedName('fn')]
     private $downloadFilename;
     
     /**
@@ -53,8 +54,8 @@ class Binary extends SubjectResource implements MultipartResource
     
     /**
      * @var string
-     * @Groups({"update"})
      */
+    #[Groups(['update'])]
     private $types;
 
     /**
