@@ -12,6 +12,8 @@ use Progrupa\Sketchup3DWarehouseBundle\ApiResponse;
 use Progrupa\Sketchup3DWarehouseBundle\Client;
 use Progrupa\Sketchup3DWarehouseBundle\Model\Binary;
 use Progrupa\Sketchup3DWarehouseBundle\Model\Entity;
+use Progrupa\Sketchup3DWarehouseBundle\Search\Query;
+use Progrupa\Sketchup3DWarehouseBundle\Search\Result;
 use Progrupa\Sketchup3DWarehouseBundle\Serializer\WarehouseSerializerFactory;
 
 /**
@@ -96,6 +98,53 @@ class ClientTest extends TestCase
         self::assertFalse($resp->isSuccess());
         self::assertSame("Parameter 'contentType' must not be empty or null.", $resp->getMessage());
         self::assertSame('PARAM_MUST_NOT_BE_EMPTY', $resp->getErrorId());
+    }
+
+    public function testErrorResponseWithNonJsonBodyIsReturnedAsFailureWithoutThrowing(): void
+    {
+        // 3DW occasionally answers an error status with a non-JSON body: an HTML
+        // gateway page from a 502/503, an auth challenge, a rate-limit notice. The
+        // Client must surface that as a failed ApiResponse, not let the JSON decode
+        // error (NotEncodableValueException) escape and abort the whole export.
+        $client = $this->client([
+            new Response(502, [], '<html><head><title>502 Bad Gateway</title></head><body>nginx</body></html>'),
+        ]);
+
+        $resp = $client->updateResource(new Entity('existing-id'));
+
+        self::assertInstanceOf(ApiResponse::class, $resp);
+        self::assertFalse($resp->isSuccess());
+        self::assertSame(502, $resp->getCode());
+    }
+
+    public function testEmptyErrorBodyIsReturnedAsFailureWithoutThrowing(): void
+    {
+        $client = $this->client([
+            new Response(503, [], ''),
+        ]);
+
+        $resp = $client->updateResource(new Entity('existing-id'));
+
+        self::assertInstanceOf(ApiResponse::class, $resp);
+        self::assertFalse($resp->isSuccess());
+        self::assertSame(503, $resp->getCode());
+    }
+
+    public function testSearchWithNonJsonBodyIsReturnedAsUnsuccessfulResultWithoutThrowing(): void
+    {
+        // A response carrying a non-JSON body (an HTML interstitial, a maintenance
+        // page) must not crash the search; it is reported as an unsuccessful Result.
+        $client = $this->client([
+            new Response(200, [], '<html><body>under maintenance</body></html>'),
+        ]);
+
+        $query = new Query();
+        $query->setClass(Query::CLASS_ENTITY);
+
+        $result = $client->search($query);
+
+        self::assertInstanceOf(Result::class, $result);
+        self::assertFalse($result->isSuccess());
     }
 
     public function testCreatePreservesSuccessWhenReadBackIsNotYetConsistent(): void

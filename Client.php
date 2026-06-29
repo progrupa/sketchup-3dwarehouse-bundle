@@ -3,6 +3,7 @@
 namespace Progrupa\Sketchup3DWarehouseBundle;
 
 use GuzzleHttp\Exception\RequestException;
+use Symfony\Component\Serializer\Exception\ExceptionInterface as SerializerExceptionInterface;
 use Symfony\Component\Serializer\SerializerInterface;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Progrupa\Sketchup3DWarehouseBundle\Model\Collection;
@@ -223,9 +224,17 @@ class Client
     {
         $response = new ApiResponse($guzzleResponse->getStatusCode());
         if ($guzzleResponse->getStatusCode() >= 400) {
-            /** @var ApiResponse $response */
             $body = (string)$guzzleResponse->getBody();
-            $response = $this->serializer->deserialize($body, ApiResponse::class, 'json');
+            try {
+                /** @var ApiResponse $response */
+                $response = $this->serializer->deserialize($body, ApiResponse::class, 'json');
+            } catch (SerializerExceptionInterface $e) {
+                //  The API answered an error status with a non-JSON body (an HTML
+                //  gateway page from a 502/503, an empty body, an auth or rate-limit
+                //  notice). Surface it as a failed ApiResponse instead of letting the
+                //  decode error escape and abort the caller's whole operation.
+                $response = new ApiResponse($guzzleResponse->getStatusCode(), false, '', $this->errorBodyExcerpt($body));
+            }
             $response->setSuccess(false);
         } elseif ($guzzleResponse->getStatusCode() == 201) {    // Created
             $response->setSuccess(true);
@@ -245,9 +254,18 @@ class Client
     protected function convertSearchResult($guzzleResponse)
     {
         $body = (string)$guzzleResponse->getBody();
-        /** @var Result $result */
-        $result = $this->serializer->deserialize($body, Result::class, 'json');
-        $result->setCode($guzzleResponse->getStatusCode());
+        try {
+            /** @var Result $result */
+            $result = $this->serializer->deserialize($body, Result::class, 'json');
+            $result->setCode($guzzleResponse->getStatusCode());
+        } catch (SerializerExceptionInterface $e) {
+            //  Non-JSON body (HTML interstitial, empty, gateway error). Report an
+            //  unsuccessful Result rather than throwing.
+            $result = new Result();
+            $result->setCode($guzzleResponse->getStatusCode());
+            $result->setSuccess(false);
+            $result->setMessage($this->errorBodyExcerpt($body));
+        }
         if ($result->isSuccess()) {
             foreach ($result->getEntries() as $item) {
                 switch ($item['class']) {
@@ -281,6 +299,16 @@ class Client
             'json',
             [AbstractNormalizer::GROUPS => ['Default', 'get']]
         );
+    }
+
+    private function errorBodyExcerpt($body)
+    {
+        $body = trim((string) $body);
+        if ('' === $body) {
+            return 'Empty response body';
+        }
+
+        return mb_substr($body, 0, 200);
     }
 
     private function idFromLocation($location)
